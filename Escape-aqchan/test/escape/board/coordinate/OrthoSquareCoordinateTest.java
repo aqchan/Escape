@@ -110,4 +110,14 @@ class OrthoSquareCoordinateTest
 		});
 	}
 
+    @Test
+    void objEqualTests()
+    {
+    	OrthoSquareCoordinate c1 = OrthoSquareCoordinate.makeCoordinate(3,3);
+    	HexCoordinate c2 = HexCoordinate.makeCoordinate(3,3);
+    	OrthoSquareCoordinate c3 = OrthoSquareCoordinate.makeCoordinate(1,3);
+    	assertTrue(c1.equals(c1));
+    	assertFalse(c1.equals(c2));
+    	assertFalse(c1.equals(c3));
+    }
 }

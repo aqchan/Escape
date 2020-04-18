@@ -13,6 +13,4 @@
         <y>-1</y>
         <locationType>BLOCK</locationType>
     </locationInitializers>
-    <xMax>0</xMax>
-    <yMax>0</yMax>
 </boardInitializer>

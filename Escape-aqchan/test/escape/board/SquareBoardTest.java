@@ -15,7 +15,7 @@ package escape.board;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import org.junit.jupiter.api.*;
-import escape.board.builder.SquareBoardBuilder;
+import escape.board.builder.*;
 import escape.board.coordinate.SquareCoordinate;
 import escape.exception.EscapeException;
 import escape.piece.*;
@@ -40,6 +40,15 @@ class SquareBoardTest
 	{
 		squareBoard = (SquareBoard) bb.makeBoard();
 		assertNotNull(squareBoard); // check that a square board was created
+	}
+	
+	@Test
+	void consumeIncorrectFileType () throws Exception
+	{
+		SquareBoardBuilder bb = new SquareBoardBuilder(new File("config/board/OrthoSquareBoardConfig.xml"));
+		Assertions.assertThrows(EscapeException.class, () -> {
+			squareBoard = (SquareBoard) bb.makeBoard();
+		});		
 	}
 	
 	@Test

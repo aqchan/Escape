@@ -18,6 +18,7 @@ import org.junit.jupiter.api.*;
 import escape.board.builder.*;
 import escape.board.coordinate.*;
 import escape.exception.EscapeException;
+import escape.piece.*;
 
 /**
  * Description
@@ -42,6 +43,15 @@ class HexBoardTest
 		assertNotNull(hexBoard); // check that a square board was created
 	}
 
+	@Test
+	void consumeIncorrectFileType () throws Exception
+	{
+		HexBoardBuilder bb = new HexBoardBuilder(new File("config/board/SquareBoardConfig.xml"));
+		Assertions.assertThrows(EscapeException.class, () -> {
+			hexBoard = (HexBoard) bb.makeBoard();
+		});		
+	}
+	
 	@Test
 	void getPieceThatExists()
 	{
@@ -96,5 +106,35 @@ class HexBoardTest
 		Assertions.assertThrows(EscapeException.class, () -> {
 			assertTrue(hexBoard.isValidCoords(c2));
 		});		
+	}
+	
+	@Test
+	void placePieceInValidLocation()
+	{
+		// Test placing a piece in valid location and then retrieving it
+		EscapePiece p = EscapePiece.makePiece(Player.PLAYER1, PieceName.SNAIL);
+		HexCoordinate c = HexCoordinate.makeCoordinate(0,3); 
+		hexBoard.putPieceAt(p, c);
+		assertNotNull(hexBoard.getPieceAt(c));
+	}
+	
+	@Test
+	void placePieceOnBlockedLocation()
+	{
+		EscapePiece p = EscapePiece.makePiece(Player.PLAYER1, PieceName.SNAIL);
+		HexCoordinate c = HexCoordinate.makeCoordinate(1,-1); 
+		Assertions.assertThrows(EscapeException.class, () -> {
+			hexBoard.putPieceAt(p, c);
+		});		
+	}
+	
+	@Test
+	void placePieceOnExitLocation()
+	{
+		EscapePiece p = EscapePiece.makePiece(Player.PLAYER1, PieceName.SNAIL);
+		HexCoordinate c = HexCoordinate.makeCoordinate(0,4); 
+		hexBoard.setLocationType(c, LocationType.EXIT); // make this coord an exit location
+		hexBoard.putPieceAt(p, c); // place piece on exit location
+		assertNull(hexBoard.getPieceAt(c)); // try to retrieve piece... should be null
 	}
 }

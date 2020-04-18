@@ -110,5 +110,17 @@ class SquareCoordinateTest
    		});
    	}
     
+    @Test
+    void objEqualTests()
+    {
+    	SquareCoordinate c1 = SquareCoordinate.makeCoordinate(3,3);
+    	OrthoSquareCoordinate c2 = OrthoSquareCoordinate.makeCoordinate(3,3);
+    	SquareCoordinate c3 = SquareCoordinate.makeCoordinate(1,3);
+    	assertTrue(c1.equals(c1));
+    	assertFalse(c1.equals(c2));
+    	assertFalse(c1.equals(c3));
+    }
+    
+    
 
 }

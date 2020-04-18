@@ -45,5 +45,17 @@ class HexCoordinateTest
     	HexCoordinate c10 = HexCoordinate.makeCoordinate(2,0);
     	assertEquals(1, c9.distanceTo(c10));
 	}
+	
+	@Test
+    void objEqualTests()
+    {
+    	HexCoordinate c1 = HexCoordinate.makeCoordinate(3,3);
+    	SquareCoordinate c2 = SquareCoordinate.makeCoordinate(3,3);
+    	HexCoordinate c3 = HexCoordinate.makeCoordinate(1,3);
+    	assertTrue(c1.equals(c1));
+    	assertFalse(c1.equals(c2));
+    	assertFalse(c1.equals(c3));
+    }
+    
 
 }
