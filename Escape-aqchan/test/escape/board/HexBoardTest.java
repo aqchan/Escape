@@ -27,7 +27,7 @@ import escape.piece.*;
 class HexBoardTest
 {
 
-	private static HexBoardBuilder bb = null; 
+	private static BoardBuilder bb = null; 
 	private HexBoard hexBoard;
 	
 	@BeforeAll
@@ -46,7 +46,7 @@ class HexBoardTest
 	@Test
 	void consumeIncorrectFileType () throws Exception
 	{
-		HexBoardBuilder bb = new HexBoardBuilder(new File("config/board/SquareBoardConfig.xml"));
+		BoardBuilder bb = new HexBoardBuilder(new File("config/board/SquareBoardConfig.xml"));
 		Assertions.assertThrows(EscapeException.class, () -> {
 			hexBoard = (HexBoard) bb.makeBoard();
 		});		

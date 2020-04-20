@@ -70,7 +70,7 @@ public class SquareBoard implements Board<SquareCoordinate>
 	 */
 	public boolean isValidCoords(SquareCoordinate coord)
 	{
-		if (coord.getX() > xMax || coord.getY() > yMax) {
+		if (coord.getX() > xMax || coord.getY() > yMax || coord.getX() < 1 || coord.getY() < 1) {
 			throw new EscapeException("At least one of the given coordinates are outside the boundaries of the board.");
 		} 
 		return true;

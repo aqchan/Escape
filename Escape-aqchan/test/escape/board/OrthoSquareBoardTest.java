@@ -27,7 +27,7 @@ import escape.piece.*;
 class OrthoSquareBoardTest
 {
 
-	private static OrthoSquareBoardBuilder bb = null; 
+	private static BoardBuilder bb = null; 
 	private OrthoSquareBoard orthoSquareBoard;
 	
 	@BeforeAll
@@ -46,7 +46,7 @@ class OrthoSquareBoardTest
 	@Test
 	void consumeIncorrectFileType () throws Exception
 	{
-		OrthoSquareBoardBuilder bb = new OrthoSquareBoardBuilder(new File("config/board/HexBoardConfigInfinite.xml"));
+		BoardBuilder bb = new OrthoSquareBoardBuilder(new File("config/board/HexBoardConfigInfinite.xml"));
 		Assertions.assertThrows(EscapeException.class, () -> {
 			orthoSquareBoard = (OrthoSquareBoard) bb.makeBoard();
 		});		
@@ -101,7 +101,27 @@ class OrthoSquareBoardTest
 		Assertions.assertThrows(EscapeException.class, () -> {
 			orthoSquareBoard.putPieceAt(p, c3);
 		});		
+		
+		// X and Y coordinates are less than (1,1)
+		OrthoSquareCoordinate c4 = OrthoSquareCoordinate.makeCoordinate(0,0); 
+		Assertions.assertThrows(EscapeException.class, () -> {
+			orthoSquareBoard.putPieceAt(p, c4);
+		});
+		
+		// X coordinate is less than 1
+		OrthoSquareCoordinate c5 = OrthoSquareCoordinate.makeCoordinate(-1,1); 
+		Assertions.assertThrows(EscapeException.class, () -> {
+			orthoSquareBoard.putPieceAt(p, c5);
+		});
+		
+		// Y coordinate is less than 1
+		OrthoSquareCoordinate c6 = OrthoSquareCoordinate.makeCoordinate(1,-1); 
+		Assertions.assertThrows(EscapeException.class, () -> {
+			orthoSquareBoard.putPieceAt(p, c6);
+		});
 	}
+	
+	
 
 	@Test
 	void placePieceOnBlockedLocation()

@@ -32,9 +32,6 @@ public class SquareCoordinate implements Coordinate
     
     public static SquareCoordinate makeCoordinate(int x, int y)
     {
-    	if (x < 1 || y < 1) {
-			throw new EscapeException("Coordinates for square boards must start at (1,1).");
-    	}
     	return new SquareCoordinate(x, y);
     }
     

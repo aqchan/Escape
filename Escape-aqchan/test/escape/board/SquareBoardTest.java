@@ -26,7 +26,7 @@ import escape.piece.*;
  */
 class SquareBoardTest
 {
-	private static SquareBoardBuilder bb = null; 
+	private static BoardBuilder bb = null; 
 	private SquareBoard squareBoard;
 	
 	@BeforeAll
@@ -45,7 +45,7 @@ class SquareBoardTest
 	@Test
 	void consumeIncorrectFileType () throws Exception
 	{
-		SquareBoardBuilder bb = new SquareBoardBuilder(new File("config/board/OrthoSquareBoardConfig.xml"));
+		BoardBuilder bb = new SquareBoardBuilder(new File("config/board/OrthoSquareBoardConfig.xml"));
 		Assertions.assertThrows(EscapeException.class, () -> {
 			squareBoard = (SquareBoard) bb.makeBoard();
 		});		
@@ -100,6 +100,24 @@ class SquareBoardTest
 		Assertions.assertThrows(EscapeException.class, () -> {
 			squareBoard.putPieceAt(p, c3);
 		});		
+		
+		// X and Y coordinates are less than (1,1)
+		SquareCoordinate c4 = SquareCoordinate.makeCoordinate(0,0); 
+		Assertions.assertThrows(EscapeException.class, () -> {
+			squareBoard.putPieceAt(p, c4);
+		});
+		
+		// X coordinate is less than 1
+		SquareCoordinate c5 = SquareCoordinate.makeCoordinate(-1,1); 
+		Assertions.assertThrows(EscapeException.class, () -> {
+			squareBoard.putPieceAt(p, c5);
+		});
+		
+		// Y coordinate is less than 1
+		SquareCoordinate c6 = SquareCoordinate.makeCoordinate(1,-1); 
+		Assertions.assertThrows(EscapeException.class, () -> {
+			squareBoard.putPieceAt(p, c6);
+		});
 	}
 	
 	@Test

@@ -93,22 +93,6 @@ class OrthoSquareCoordinateTest
     	OrthoSquareCoordinate c6 = OrthoSquareCoordinate.makeCoordinate(8,1);
     	assertEquals(9, c5.distanceTo(c6));
 	}
-	
-    @Test
-	void invalidCreationOfCoordinate()
-	{
-		Assertions.assertThrows(EscapeException.class, () -> {
-			OrthoSquareCoordinate c = OrthoSquareCoordinate.makeCoordinate(0,0);
-		});
-		
-		Assertions.assertThrows(EscapeException.class, () -> {
-			OrthoSquareCoordinate c = OrthoSquareCoordinate.makeCoordinate(-1,1);
-		});
-		
-		Assertions.assertThrows(EscapeException.class, () -> {
-			OrthoSquareCoordinate c = OrthoSquareCoordinate.makeCoordinate(1,-1);
-		});
-	}
 
     @Test
     void objEqualTests()

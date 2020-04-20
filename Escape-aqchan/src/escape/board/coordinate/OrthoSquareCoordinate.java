@@ -32,9 +32,6 @@ public class OrthoSquareCoordinate implements Coordinate
     
     public static OrthoSquareCoordinate makeCoordinate(int x, int y)
     {
-    	if (x < 1 || y < 1) {
-			throw new EscapeException("Coordinates for orthosquare boards must start at (1,1).");
-    	}
     	return new OrthoSquareCoordinate(x, y);
     }
     

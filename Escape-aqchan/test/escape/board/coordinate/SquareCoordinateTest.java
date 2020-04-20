@@ -93,22 +93,7 @@ class SquareCoordinateTest
     	SquareCoordinate c6 = SquareCoordinate.makeCoordinate(1,4);
     	assertEquals(6, c5.distanceTo(c6));
     }
-    
-    @Test
-   	void invalidCreationOfCoordinate()
-   	{
-   		Assertions.assertThrows(EscapeException.class, () -> {
-   			SquareCoordinate c = SquareCoordinate.makeCoordinate(0,0);
-   		});
-   		
-   		Assertions.assertThrows(EscapeException.class, () -> {
-   			SquareCoordinate c = SquareCoordinate.makeCoordinate(-1,1);
-   		});
-   		
-   		Assertions.assertThrows(EscapeException.class, () -> {
-   			SquareCoordinate c = SquareCoordinate.makeCoordinate(1,-1);
-   		});
-   	}
+   
     
     @Test
     void objEqualTests()
