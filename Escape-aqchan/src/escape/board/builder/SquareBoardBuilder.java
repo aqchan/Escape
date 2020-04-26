@@ -45,6 +45,11 @@ public class SquareBoardBuilder implements BoardBuilder
 	{
 		if (bi.getCoordinateId() == CoordinateID.SQUARE) {
 			SquareBoard board = new SquareBoard(bi.getxMax(), bi.getyMax());
+			
+			if (bi.getLocationInitializers() == null) {
+				 return board;
+			 }
+			
 			initializeBoard(board, bi.getLocationInitializers());
 		    return board;
 		}

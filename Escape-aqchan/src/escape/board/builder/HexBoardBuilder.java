@@ -45,6 +45,11 @@ public class HexBoardBuilder implements BoardBuilder
 	{
 		if (bi.getCoordinateId() == CoordinateID.HEX) {
 			HexBoard board = new HexBoard(bi.getxMax(), bi.getyMax());
+			
+			if (bi.getLocationInitializers() == null) {
+				 return board;
+			 }
+			
 	        initializeBoard(board, bi.getLocationInitializers());
 	        return board;
 		}

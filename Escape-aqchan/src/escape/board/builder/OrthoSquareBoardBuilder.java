@@ -45,6 +45,11 @@ public class OrthoSquareBoardBuilder implements BoardBuilder
 	{
 		if (bi.getCoordinateId() == CoordinateID.ORTHOSQUARE) {
 			 OrthoSquareBoard board = new OrthoSquareBoard(bi.getxMax(), bi.getyMax());
+			 
+			 if (bi.getLocationInitializers() == null) {
+				 return board;
+			 }
+			 
 		     initializeBoard(board, bi.getLocationInitializers());
 		     return board;
 		}
