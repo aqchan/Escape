@@ -11,6 +11,7 @@
  *******************************************************************************/
 package escape.board.coordinate;
 
+
 /**
  * This is a interface that every type of coordinate must implement.
  * 

@@ -15,6 +15,8 @@ import java.util.*;
 import escape.board.coordinate.*;
 import escape.exception.EscapeException;
 import escape.piece.EscapePiece;
+import com.google.inject.Inject; 
+
 
 /**
  * An example of how a Board might be implemented. This board has
@@ -29,6 +31,7 @@ public class SquareBoard implements Board<SquareCoordinate>
 	Map<SquareCoordinate, LocationType> squares;
 	
 	private final int xMax, yMax;
+	
 	public SquareBoard(int xMax, int yMax)
 	{
 		this.xMax = xMax;
@@ -36,6 +39,7 @@ public class SquareBoard implements Board<SquareCoordinate>
 		pieces = new HashMap<SquareCoordinate, EscapePiece>();
 		squares = new HashMap<SquareCoordinate, LocationType>();
 	}
+	
 	
 	/*
 	 * @see escape.board.Board#getPieceAt(escape.board.coordinate.Coordinate)
@@ -64,6 +68,16 @@ public class SquareBoard implements Board<SquareCoordinate>
 	}
 	
 	/**
+	 * Removes piece at specified coordinate
+	 * @param p
+	 * @param coord
+	 */
+	public void removePieceAt(EscapePiece p, SquareCoordinate coord) 
+	{
+		pieces.remove(coord, p);
+	}
+	
+	/**
 	 * Determines if coordinates are within the constraints of the board
 	 * @param coord
 	 * @return true if the coordinate is within the boundaries of the board or false if it is not
@@ -89,8 +103,27 @@ public class SquareBoard implements Board<SquareCoordinate>
 		return true;
 	}
 	
-	public void setLocationType(SquareCoordinate c, LocationType lt)
+	public void setLocationType(Coordinate c, LocationType lt)
 	{
-		squares.put(c, lt);
+		squares.put((SquareCoordinate) c, lt);
+	}
+	
+	
+	public Map<SquareCoordinate, EscapePiece> getPieceMap()
+	{
+		return pieces;
+	}
+	
+	public Map<SquareCoordinate, LocationType> getLocationMap()
+	{
+		return squares;
+	}
+	
+	public int getxMax() {
+		return xMax;
+	}
+	
+	public int getyMax() {
+		return yMax;
 	}
 }

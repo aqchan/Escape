@@ -35,6 +35,22 @@ public class HexBoard implements Board<HexCoordinate>
 		hexagons = new HashMap<HexCoordinate, LocationType>();
 	}
 	
+	/**
+	 * @return the hexagons
+	 */
+	public Map<HexCoordinate, LocationType> getHexagons()
+	{
+		return hexagons;
+	}
+	
+	/**
+	 * @return the pieces
+	 */
+	public Map<HexCoordinate, EscapePiece> getPieces()
+	{
+		return pieces;
+	}
+	
 	/*
 	 * @see escape.board.Board#getPieceAt(escape.board.coordinate.Coordinate)
 	 */
@@ -59,6 +75,16 @@ public class HexBoard implements Board<HexCoordinate>
 		if (hexagons.get(coord) == LocationType.EXIT) {
 			pieces.remove(coord, p);
 		}
+	}
+	
+	/**
+	 * Removes piece at specified coordinate
+	 * @param p
+	 * @param coord
+	 */
+	public void removePieceAt(EscapePiece p, HexCoordinate coord) 
+	{
+		pieces.remove(coord, p);
 	}
 	
 	/**
@@ -100,9 +126,26 @@ public class HexBoard implements Board<HexCoordinate>
 		return true;
 	}
 	
-	public void setLocationType(HexCoordinate c, LocationType lt)
+	public void setLocationType(Coordinate c, LocationType lt)
 	{
-		hexagons.put(c, lt);
+		hexagons.put((HexCoordinate) c, lt);
 	}
 
+	public Map<HexCoordinate, EscapePiece> getPieceMap()
+	{
+		return pieces;
+	}
+	
+	public Map<HexCoordinate, LocationType> getLocationMap()
+	{
+		return hexagons;
+	}
+	
+	public int getxMax() {
+		return xMax;
+	}
+	
+	public int getyMax() {
+		return yMax;
+	}
 }

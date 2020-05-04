@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<escapeGameInitializer>
+	<coordinateType>SQUARE</coordinateType>
+    <!-- Board items -->
+    <xMax>5</xMax>
+    <yMax>6</yMax>
+    <locationInitializers> <!-- Test piece 1 -->
+        <x>4</x>
+        <y>2</y>
+        <locationType>CLEAR</locationType>
+        <player>PLAYER1</player>
+        <pieceName>SNAIL</pieceName>
+    </locationInitializers>
+    <locationInitializers> <!-- Test piece 2 -->
+        <x>1</x>
+        <y>2</y>
+        <locationType>CLEAR</locationType>
+        <player>PLAYER1</player>
+        <pieceName>SNAIL</pieceName>
+    </locationInitializers>
+    <locationInitializers> <!-- Test piece 3 -->
+        <x>2</x>
+        <y>1</y>
+        <locationType>CLEAR</locationType>
+        <player>PLAYER1</player>
+        <pieceName>HORSE</pieceName>
+    </locationInitializers>
+     <locationInitializers> <!-- Test piece 4 -->
+        <x>3</x>
+        <y>2</y>
+        <locationType>CLEAR</locationType>
+        <player>PLAYER1</player>
+        <pieceName>SNAIL</pieceName>
+    </locationInitializers>
+     <locationInitializers> <!-- Blocked Space -->
+        <x>3</x>
+        <y>3</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers> <!-- Blocked Space -->
+        <x>3</x>
+        <y>4</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers> <!-- Blocked Space -->
+        <x>3</x>
+        <y>5</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers> <!-- Blocked Space -->
+        <x>2</x>
+        <y>3</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers> <!-- Blocked Space -->
+        <x>1</x>
+        <y>3</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers> <!-- Blocked Space -->
+        <x>1</x>
+        <y>4</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers> <!-- Blocked Space -->
+        <x>1</x>
+        <y>5</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers> <!-- Blocked Space -->
+        <x>2</x>
+        <y>5</y>
+        <locationType>BLOCK</locationType>
+    </locationInitializers>
+    <locationInitializers> <!-- Exit Space -->
+        <x>4</x>
+        <y>6</y>
+        <locationType>EXIT</locationType>
+    </locationInitializers>
+    <locationInitializers> <!-- Exit Space -->
+        <x>5</x>
+        <y>5</y>
+        <locationType>EXIT</locationType>
+    </locationInitializers>
+    
+    <!-- Piece items, an array of pieceTypes, 1 or more -->
+    <pieceTypes>
+        <movementPattern>ORTHOGONAL</movementPattern>
+        <pieceName>HORSE</pieceName>
+        <attributes>
+            <id>DISTANCE</id>
+            <attrType>INTEGER</attrType>
+            <intValue>4</intValue>
+        </attributes>
+        <attributes>
+            <id>UNBLOCK</id>
+            <attrType>BOOLEAN</attrType>
+            <booleanValue>true</booleanValue>
+        </attributes>
+    </pieceTypes>
+    <pieceTypes>
+        <movementPattern>OMNI</movementPattern>
+        <pieceName>SNAIL</pieceName>
+        <attributes>
+            <id>DISTANCE</id>
+            <attrType>INTEGER</attrType>
+            <intValue>5</intValue>
+        </attributes>
+        <attributes>
+            <id>UNBLOCK</id>
+            <attrType>BOOLEAN</attrType>
+            <booleanValue>true</booleanValue>
+        </attributes>
+    </pieceTypes>
+</escapeGameInitializer>

@@ -62,6 +62,16 @@ public class OrthoSquareBoard implements Board<OrthoSquareCoordinate>
 	}
 	
 	/**
+	 * Removes piece at specified coordinate
+	 * @param p
+	 * @param coord
+	 */
+	public void removePieceAt(EscapePiece p, OrthoSquareCoordinate coord) 
+	{
+		pieces.remove(coord, p);
+	}
+	
+	/**
 	 * Determines if coordinates are within the constraints of the board
 	 * @param coord
 	 * @return true if the coordinate is within the boundaries of the board or false if it is not
@@ -87,9 +97,36 @@ public class OrthoSquareBoard implements Board<OrthoSquareCoordinate>
 		return true;
 	}
 	
-	public void setLocationType(OrthoSquareCoordinate c, LocationType lt)
+	public void setLocationType(Coordinate c, LocationType lt)
 	{
-		orthoSquares.put(c, lt);
+		orthoSquares.put((OrthoSquareCoordinate) c, lt);
+	}
+
+	
+	public Map<OrthoSquareCoordinate, EscapePiece> getPieceMap()
+	{
+		return pieces;
+	}
+	
+	public Map<OrthoSquareCoordinate, LocationType> getLocationMap()
+	{
+		return orthoSquares;
+	}
+	
+	/**
+	 * @return xMax
+	 */
+	public int getxMax()
+	{
+		return xMax;
+	}
+	
+	/**
+	 * @return yMax
+	 */
+	public int getyMax()
+	{
+		return yMax;
 	}
 	
 	

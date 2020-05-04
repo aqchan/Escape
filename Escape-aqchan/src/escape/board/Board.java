@@ -21,6 +21,7 @@ import escape.piece.EscapePiece;
  */
 public interface Board<C extends Coordinate>
 {
+	
     /**
      * Get the piece at the specified coordinate
      * @param coord the coordinate to inspect
@@ -35,5 +36,12 @@ public interface Board<C extends Coordinate>
      * @param coord the coordinate where the piece must be placed
      */
     void putPieceAt(EscapePiece p, C coord);
+
+	/**
+	 * Sets the location type
+	 * @param c
+	 * @param locationType
+	 */
+	void setLocationType(Coordinate c, LocationType locationType);
     
 }

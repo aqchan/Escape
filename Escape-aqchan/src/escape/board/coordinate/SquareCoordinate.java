@@ -11,8 +11,10 @@
  *******************************************************************************/
 package escape.board.coordinate;
 
-import java.util.Objects;
+import java.util.*;
 import escape.exception.EscapeException;
+import escape.pathfinding.Node;
+import escape.piece.EscapePiece;
 
 /**
  * This is an example of how a SquareCoordinate might be organized.
@@ -34,6 +36,7 @@ public class SquareCoordinate implements Coordinate
     {
     	return new SquareCoordinate(x, y);
     }
+    
     
     /*
 	 * @see escape.board.coordinate.Coordinate#distanceTo(escape.board.coordinate.Coordinate)
@@ -88,4 +91,6 @@ public class SquareCoordinate implements Coordinate
 		SquareCoordinate other = (SquareCoordinate) obj;
 		return x == other.x && y == other.y;
 	}
+
+
 }
