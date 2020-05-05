@@ -63,24 +63,38 @@ class HexBetaEscapeGameTests
         assertNull(egm.getPieceAt(c2));
     }
     
-   
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    
+       
     // move() tests
     @Test
-    void hexMoveTests() throws Exception
+    void hexLinearTests() throws Exception
     {
-        // Exercise the game now: make moves, check the board, etc.
-//    	assertFalse(egm.move(egm.makeCoordinate(1, 0), egm.makeCoordinate(2, 0))); // from is null
-//    	assertFalse(egm.move(egm.makeCoordinate(0, 0), egm.makeCoordinate(0, 0))); // from = to
-//    	assertFalse(egm.move(egm.makeCoordinate(0, 0), egm.makeCoordinate(0, -3))); // to is blocked
+    	EscapeGameBuilder gameBuilder = new EscapeGameBuilder(new File("config/hexconfigs/HexLinear.xml"));
+		EscapeGameManager e = gameBuilder.makeGameManager();
+		 
+		assertFalse(e.move(e.makeCoordinate(1, 0), e.makeCoordinate(2, 0))); // from is null
+    	assertFalse(e.move(e.makeCoordinate(0, 0), e.makeCoordinate(0, 0))); // from = to
     	
     	// LINEAR movement pattern
-
-        // test for a piece in the way of the path
-        
+    	assertTrue(e.move(e.makeCoordinate(-2, 2), e.makeCoordinate(2, -2))); 
+    	assertTrue(e.move(e.makeCoordinate(0, -2), e.makeCoordinate(0, 1))); 
+    	assertFalse(e.move(e.makeCoordinate(0, 1), e.makeCoordinate(2, 0))); 
+    	assertTrue(e.move(e.makeCoordinate(0, 1), e.makeCoordinate(0, -3))); 
+    	assertTrue(e.move(e.makeCoordinate(0, -3), e.makeCoordinate(-3, 0))); 
+    	assertTrue(e.move(e.makeCoordinate(-3, 0), e.makeCoordinate(2, 0))); 
+    	assertTrue(e.move(e.makeCoordinate(2, 0), e.makeCoordinate(1, 0))); 
     }
     
-
+    @Test
+    void hexOmniTests() throws Exception
+    {
+    	EscapeGameBuilder gameBuilder = new EscapeGameBuilder(new File("config/hexconfigs/HexOmni.xml"));
+		EscapeGameManager e = gameBuilder.makeGameManager();
+		 
+    	// OMNI movement pattern
+    	assertTrue(e.move(e.makeCoordinate(-2, 2), e.makeCoordinate(2, -2))); 
+    	assertTrue(e.move(e.makeCoordinate(0, -2), e.makeCoordinate(0, 1))); 
+    	assertTrue(e.move(e.makeCoordinate(0, 1), e.makeCoordinate(1, -1))); 
+    	assertTrue(e.move(e.makeCoordinate(1, -1), e.makeCoordinate(-3, 0))); 
+    }
 
 }

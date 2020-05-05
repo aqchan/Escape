@@ -92,9 +92,9 @@ class OrthoSquareBetaEscapeGameTests
 		 assertFalse(e.move(e.makeCoordinate(4, 2), e.makeCoordinate(1, 5))); // not enough distance
 		 assertTrue(e.move(e.makeCoordinate(4, 2), e.makeCoordinate(1, 1)));
 		 assertTrue(e.move(e.makeCoordinate(5, 5), e.makeCoordinate(4, 6))); 	
-		 System.out.println("HI");
+		 assertNotNull(e.getPieceAt(e.makeCoordinate(4, 6)));
 		 assertTrue(e.move(e.makeCoordinate(2, 2), e.makeCoordinate(1, 6))); // land on exit
-		 
+		 assertNull(e.getPieceAt(e.makeCoordinate(1, 6)));
 		 Assertions.assertThrows(EscapeException.class, () -> {
 			 e.move(e.makeCoordinate(3, 3), e.makeCoordinate(3, 4));  // invalid movement type
 		 });

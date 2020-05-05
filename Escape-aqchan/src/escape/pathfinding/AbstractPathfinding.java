@@ -13,6 +13,7 @@
 package escape.pathfinding;
 
 import java.util.*;
+import escape.board.*;
 import escape.piece.*;
 import escape.util.PieceTypeInitializer.PieceAttribute;
 
@@ -20,7 +21,7 @@ import escape.util.PieceTypeInitializer.PieceAttribute;
  * Description
  * @version May 4, 2020
  */
-public abstract class AbstractPathfindingForSquareBoards
+public abstract class AbstractPathfinding
 {
 
 	/**
@@ -38,36 +39,62 @@ public abstract class AbstractPathfindingForSquareBoards
 	}
 	
 	
-	/**
-	 * Determines if the given node is valid to add to the neighbors list
-	 * @param matrix a 2D array
-	 * @param currX the current x-coordinate
-	 * @param currY the current y-coordinate
-	 * @param x the future x-coordinate
-	 * @param y the future y-coordinate
-	 * @param piece an EscapePiece
-	 * @return true if the node is valid, otherwise false
-	 */
-    public static boolean isValidNode(char[][] matrix, Node currNode, int x, int y, EscapePiece piece, List<Node> neighbors)
-    {
-    	Map<PieceAttributeID, PieceAttribute> map = new HashMap<>();
-    	for (PieceAttribute p : piece.getAttributes()) { map.put(p.getId(), p); } // initialize hash map
-    	boolean boardConstraints = !(x < 1 || x >= matrix.length || y < 1 || y >= matrix[0].length);
- 
-    	if (map.containsKey(PieceAttributeID.FLY)) {
-    		 return boardConstraints && (matrix[x][y] != '0');
-    	}
-    	else if (boardConstraints && matrix[x][y] == 'b' && map.containsKey(PieceAttributeID.DISTANCE) && 
-    			map.containsKey(PieceAttributeID.UNBLOCK) && map.get(PieceAttributeID.UNBLOCK).isBooleanValue()) {
-    		return (matrix[x][y] != 'p') && (matrix[x][y] != '0') && (matrix[x][y] != 'e');    		
-    	}
-    	else if (boardConstraints && matrix[x][y] == 'p' && map.containsKey(PieceAttributeID.DISTANCE) && 
-    			map.containsKey(PieceAttributeID.JUMP) && map.get(PieceAttributeID.JUMP).isBooleanValue() && isValidJump(currNode, x, y, matrix, neighbors)) {
-    		    return (matrix[x][y] != 'p') && (matrix[x][y] != '0') && (matrix[x][y] != 'b') && (matrix[x][y] != 'e');
-    	}
-    	return boardConstraints && (matrix[x][y] != 'p') && (matrix[x][y] != '0') && (matrix[x][y] != 'b') && (matrix[x][y] != 'e');
-    }
+//	/**
+//	 * Determines if the given node is valid to add to the neighbors list
+//	 * @param matrix a 2D array
+//	 * @param currX the current x-coordinate
+//	 * @param currY the current y-coordinate
+//	 * @param x the future x-coordinate
+//	 * @param y the future y-coordinate
+//	 * @param piece an EscapePiece
+//	 * @return true if the node is valid, otherwise false
+//	 */
+//    public static boolean isValidNode(char[][] matrix, Node currNode, int x, int y, EscapePiece piece, List<Node> neighbors)
+//    {
+//    	Map<PieceAttributeID, PieceAttribute> map = new HashMap<>();
+//    	for (PieceAttribute p : piece.getAttributes()) { map.put(p.getId(), p); } // initialize hash map
+//    	boolean boardConstraints = !(x < 1 || x >= matrix.length || y < 1 || y >= matrix[0].length);
+// 
+//    	if (map.containsKey(PieceAttributeID.FLY)) {
+//    		 return boardConstraints && (matrix[x][y] != '0');
+//    	}
+//    	else if (boardConstraints && matrix[x][y] == 'b' && map.containsKey(PieceAttributeID.DISTANCE) && 
+//    			map.containsKey(PieceAttributeID.UNBLOCK) && map.get(PieceAttributeID.UNBLOCK).isBooleanValue()) {
+//    		return (matrix[x][y] != 'p') && (matrix[x][y] != '0') && (matrix[x][y] != 'e');    		
+//    	}
+//    	else if (boardConstraints && matrix[x][y] == 'p' && map.containsKey(PieceAttributeID.DISTANCE) && 
+//    			map.containsKey(PieceAttributeID.JUMP) && map.get(PieceAttributeID.JUMP).isBooleanValue() && isValidJump(currNode, x, y, matrix, neighbors)) {
+//    		    return (matrix[x][y] != 'p') && (matrix[x][y] != '0') && (matrix[x][y] != 'b') && (matrix[x][y] != 'e');
+//    	}
+//    	return boardConstraints && (matrix[x][y] != 'p') && (matrix[x][y] != '0') && (matrix[x][y] != 'b') && (matrix[x][y] != 'e');
+//    }
     
+	 public static boolean isValidNode(Board b, char[][] matrix, Node currNode, int x, int y, EscapePiece piece, List<Node> neighbors)
+	 {
+	    	boolean boardConstraints;
+	    	if (b.getClass() == HexBoard.class) {
+	    		boardConstraints = !(x < 0 || x >= matrix.length || y < 0 || y >= matrix[0].length);
+	    	} else {
+	    		boardConstraints = !(x < 1 || x >= matrix.length || y < 1 || y >= matrix[0].length);
+	    	}
+	    	
+	    	Map<PieceAttributeID, PieceAttribute> map = new HashMap<>();
+	    	for (PieceAttribute p : piece.getAttributes()) { map.put(p.getId(), p); } // initialize hash map
+//	    	boolean boardConstraints = !(x < 0 || x >= matrix.length || y < 0 || y >= matrix[0].length);
+	 
+	    	if (map.containsKey(PieceAttributeID.FLY)) {
+	    		 return boardConstraints && (matrix[x][y] != '0');
+	    	}
+	    	else if (boardConstraints && matrix[x][y] == 'b' && map.containsKey(PieceAttributeID.DISTANCE) && 
+	    			map.containsKey(PieceAttributeID.UNBLOCK) && map.get(PieceAttributeID.UNBLOCK).isBooleanValue()) {
+	    		return (matrix[x][y] != 'p') && (matrix[x][y] != '0') && (matrix[x][y] != 'e');    		
+	    	}
+	    	else if (boardConstraints && matrix[x][y] == 'p' && map.containsKey(PieceAttributeID.DISTANCE) && 
+	    			map.containsKey(PieceAttributeID.JUMP) && map.get(PieceAttributeID.JUMP).isBooleanValue() && isValidJump(currNode, x, y, matrix, neighbors)) {
+	    		    return (matrix[x][y] != 'p') && (matrix[x][y] != '0') && (matrix[x][y] != 'b') && (matrix[x][y] != 'e');
+	    	}
+	    	return boardConstraints && (matrix[x][y] != 'p') && (matrix[x][y] != '0') && (matrix[x][y] != 'b') && (matrix[x][y] != 'e');
+	    }
     
     /**
      * Determines if the current node can jump over another node
@@ -143,21 +170,21 @@ public abstract class AbstractPathfindingForSquareBoards
      * @param neighbors list of node's neighbors
      * @param piece an EscapePiece
      */
-    public static void orthogonalMovement(Node curr, char[][] matrix, List<Node> neighbors, EscapePiece piece) {
+    public static void orthogonalMovement(Board b, Node curr, char[][] matrix, List<Node> neighbors, EscapePiece piece) {
     	// down
-        if (isValidNode(matrix, curr, curr.x - 1, curr.y, piece, neighbors)) {
+        if (isValidNode(b, matrix, curr, curr.x - 1, curr.y, piece, neighbors)) {
             neighbors.add(new Node(curr.x - 1, curr.y, curr.distance + 1));
         }
         // up
-        if (isValidNode(matrix, curr, curr.x + 1, curr.y, piece, neighbors)) {
+        if (isValidNode(b, matrix, curr, curr.x + 1, curr.y, piece, neighbors)) {
             neighbors.add(new Node(curr.x + 1, curr.y, curr.distance + 1));
         }
         // left
-        if (isValidNode(matrix, curr, curr.x, curr.y - 1, piece, neighbors)) {
+        if (isValidNode(b, matrix, curr, curr.x, curr.y - 1, piece, neighbors)) {
             neighbors.add(new Node(curr.x, curr.y - 1, curr.distance + 1));
         }
         //right
-        if (isValidNode(matrix, curr, curr.x, curr.y + 1, piece, neighbors)) {
+        if (isValidNode(b, matrix, curr, curr.x, curr.y + 1, piece, neighbors)) {
             neighbors.add(new Node(curr.x, curr.y + 1, curr.distance + 1));
         }
     }

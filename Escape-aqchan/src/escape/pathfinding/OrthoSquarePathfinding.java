@@ -22,7 +22,7 @@ import escape.piece.*;
  * OrthoSquare Path Finding
  * @version May 3, 2020
  */
-public class OrthoSquarePathfinding extends AbstractPathfindingForSquareBoards
+public class OrthoSquarePathfinding extends AbstractPathfinding
 {
 	/**
 	 * Creates 2D matrix based on coordinates on board, modeling a graph
@@ -95,7 +95,7 @@ public class OrthoSquarePathfinding extends AbstractPathfindingForSquareBoards
 			else {
 				matrix[curr.x][curr.y] = '0'; // visited
 				
-				List<Node> neighborList = addNeighbors(curr, matrix, src, dest, piece);
+				List<Node> neighborList = addNeighbors(board, curr, matrix, src, dest, piece);
 				queue.addAll(neighborList);
 			}	
 		}
@@ -111,20 +111,20 @@ public class OrthoSquarePathfinding extends AbstractPathfindingForSquareBoards
 	 * @param piece an EscapePiece
 	 * @return a list of neighbors
 	 */
-	private static List<Node> addNeighbors(Node curr, char[][] matrix, OrthoSquareCoordinate src, OrthoSquareCoordinate dest, EscapePiece piece) {
+	private static List<Node> addNeighbors(Board b, Node curr, char[][] matrix, OrthoSquareCoordinate src, OrthoSquareCoordinate dest, EscapePiece piece) {
 		List<Node> neighbors = new LinkedList<Node>();
 		MovementPatternID m = piece.getMovementPatternID();
 		
 		if (m == null) { throw new EscapeException("You must input a valid movement type."); }
 		switch(m) {
 			case LINEAR:
-				linearMovement(curr, matrix, src, dest, neighbors, piece);
+				linearMovement(b, curr, matrix, src, dest, neighbors, piece);
 				break;
 			case OMNI:
-				orthogonalMovement(curr, matrix, neighbors, piece);
+				orthogonalMovement(b, curr, matrix, neighbors, piece);
 				break;
 			case ORTHOGONAL:
-				orthogonalMovement(curr, matrix, neighbors, piece);
+				orthogonalMovement(b, curr, matrix, neighbors, piece);
 				break;
 			default:
 				throw new EscapeException("Cannot have diagonal movement on an orthosquare board.");
@@ -142,24 +142,24 @@ public class OrthoSquarePathfinding extends AbstractPathfindingForSquareBoards
      * @param neighbors list of node's neighbors
      * @param piece an EscapePiece
      */
-    public static void linearMovement(Node curr, char[][] matrix, OrthoSquareCoordinate src, OrthoSquareCoordinate dest, List<Node> neighbors, EscapePiece piece) {
+    public static void linearMovement(Board b, Node curr, char[][] matrix, OrthoSquareCoordinate src, OrthoSquareCoordinate dest, List<Node> neighbors, EscapePiece piece) {
     	boolean vertical = src.getX() == dest.getX();
 		boolean horizonal = src.getY() == dest.getY();
 		
 		// up (on matrix)
-		if (horizonal && isValidNode(matrix, curr, curr.x - 1, curr.y, piece, neighbors)) {
+		if (horizonal && isValidNode(b, matrix, curr, curr.x - 1, curr.y, piece, neighbors)) {
 			neighbors.add(new Node(curr.x - 1, curr.y, curr.distance + 1));
 		}
 		// down
-		if (horizonal && isValidNode(matrix, curr, curr.x + 1, curr.y, piece, neighbors)) {
+		if (horizonal && isValidNode(b, matrix, curr, curr.x + 1, curr.y, piece, neighbors)) {
 			neighbors.add(new Node(curr.x + 1, curr.y, curr.distance + 1));
 		}
 		// left
-		if (vertical && isValidNode(matrix, curr,  curr.x, curr.y - 1, piece, neighbors)) {
+		if (vertical && isValidNode(b, matrix, curr,  curr.x, curr.y - 1, piece, neighbors)) {
 			neighbors.add(new Node(curr.x, curr.y - 1, curr.distance + 1));
 		}
 		// right
-		if (vertical && isValidNode(matrix, curr, curr.x, curr.y + 1, piece, neighbors)) {
+		if (vertical && isValidNode(b, matrix, curr, curr.x, curr.y + 1, piece, neighbors)) {
 			neighbors.add(new Node(curr.x, curr.y + 1, curr.distance + 1));
 		}
     }

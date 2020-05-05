@@ -23,7 +23,7 @@ import escape.piece.*;
  * Square Path Finding
  * @version May 1, 2020
  */
-public class SquarePathfinding extends AbstractPathfindingForSquareBoards
+public class SquarePathfinding extends AbstractPathfinding
 {
 	
 	/**
@@ -99,7 +99,7 @@ public class SquarePathfinding extends AbstractPathfindingForSquareBoards
 			}
 			else {
 				matrix[curr.x][curr.y] = '0'; // visited
-				List<Node> neighborList = addNeighbors(curr, matrix, src, dest, piece);
+				List<Node> neighborList = addNeighbors(board, curr, matrix, src, dest, piece);
 				queue.addAll(neighborList);
 			}	
 		}
@@ -115,23 +115,23 @@ public class SquarePathfinding extends AbstractPathfindingForSquareBoards
 	 * @param piece an EscapePiece
 	 * @return a list of neighbors
 	 */
-	private static List<Node> addNeighbors(Node curr, char[][] matrix, SquareCoordinate src, SquareCoordinate dest, EscapePiece piece) {
+	private static List<Node> addNeighbors(Board b, Node curr, char[][] matrix, SquareCoordinate src, SquareCoordinate dest, EscapePiece piece) {
 		List<Node> neighbors = new LinkedList<Node>();
 		MovementPatternID m = piece.getMovementPatternID();
 		
 		if (m == null) { throw new EscapeException("You must input a valid movement type.");}
 		switch(m) {
 			case DIAGONAL:
-				diagonalMovement(curr, matrix, neighbors, piece);
+				diagonalMovement(b, curr, matrix, neighbors, piece);
 				break;
 			case LINEAR:
-				linearMovement(curr, matrix, src, dest, neighbors, piece);
+				linearMovement(b, curr, matrix, src, dest, neighbors, piece);
 				break;
 			case OMNI:
-				omniMovement(curr, matrix, neighbors, piece);
+				omniMovement(b, curr, matrix, neighbors, piece);
 				break;
 			case ORTHOGONAL:
-				orthogonalMovement(curr, matrix, neighbors, piece);
+				orthogonalMovement(b, curr, matrix, neighbors, piece);
 				break;
 		}
 		return neighbors;
@@ -145,21 +145,21 @@ public class SquarePathfinding extends AbstractPathfindingForSquareBoards
      * @param neighbors list of node's neighbors
      * @param piece an EscapePiece
      */
-    public static void diagonalMovement(Node curr, char[][] matrix, List<Node> neighbors, EscapePiece piece) {
+    public static void diagonalMovement(Board b, Node curr, char[][] matrix, List<Node> neighbors, EscapePiece piece) {
     	 // diagonally up and right
-    	if (isValidNode(matrix, curr, curr.x + 1, curr.y + 1, piece, neighbors)) {
+    	if (isValidNode(b, matrix, curr, curr.x + 1, curr.y + 1, piece, neighbors)) {
             neighbors.add(new Node(curr.x + 1, curr.y + 1, curr.distance + 1));
         }
         // diagonally down and left
-        if (isValidNode(matrix, curr, curr.x - 1, curr.y - 1, piece, neighbors)) {
+        if (isValidNode(b, matrix, curr, curr.x - 1, curr.y - 1, piece, neighbors)) {
             neighbors.add(new Node(curr.x - 1, curr.y - 1, curr.distance + 1));
         }
         // diagonally up and left
-        if (isValidNode(matrix, curr, curr.x + 1, curr.y - 1, piece, neighbors)) {
+        if (isValidNode(b, matrix, curr, curr.x + 1, curr.y - 1, piece, neighbors)) {
             neighbors.add(new Node(curr.x + 1, curr.y - 1, curr.distance + 1));
         }
         // diagonally down and right
-        if (isValidNode(matrix, curr, curr.x - 1, curr.y + 1, piece, neighbors)) {
+        if (isValidNode(b, matrix, curr, curr.x - 1, curr.y + 1, piece, neighbors)) {
             neighbors.add(new Node(curr.x - 1, curr.y + 1, curr.distance + 1));
         }
     }
@@ -174,42 +174,42 @@ public class SquarePathfinding extends AbstractPathfindingForSquareBoards
      * @param neighbors list of node's neighbors
      * @param piece an EscapePiece
      */
-    public static void linearMovement(Node curr, char[][] matrix, SquareCoordinate src, SquareCoordinate dest, List<Node> neighbors, EscapePiece piece) {
+    public static void linearMovement(Board b, Node curr, char[][] matrix, SquareCoordinate src, SquareCoordinate dest, List<Node> neighbors, EscapePiece piece) {
     	boolean vertical = src.getX() == dest.getX();
 		boolean horizonal = src.getY() == dest.getY();
 		boolean negativeDiagonal = src.getX() - dest.getX() == src.getY() - dest.getY();
 		boolean positiveDiagonal = src.getX() - dest.getX() == (src.getY() - dest.getY()) * -1; // (5,1)->(3,3) and (1,5) ->(3,3)
 
 		// up (on matrix)
-		if (horizonal && isValidNode(matrix, curr, curr.x - 1, curr.y, piece, neighbors)) {
+		if (horizonal && isValidNode(b, matrix, curr, curr.x - 1, curr.y, piece, neighbors)) {
 			neighbors.add(new Node(curr.x - 1, curr.y, curr.distance + 1));
 		}
 		// down
-		if (horizonal && isValidNode(matrix, curr, curr.x + 1, curr.y, piece, neighbors)) {
+		if (horizonal && isValidNode(b, matrix, curr, curr.x + 1, curr.y, piece, neighbors)) {
 			neighbors.add(new Node(curr.x + 1, curr.y, curr.distance + 1));
 		}
 		// left
-		if (vertical && isValidNode(matrix, curr,  curr.x, curr.y - 1, piece, neighbors)) {
+		if (vertical && isValidNode(b, matrix, curr,  curr.x, curr.y - 1, piece, neighbors)) {
 			neighbors.add(new Node(curr.x, curr.y - 1, curr.distance + 1));
 		}
 		// right
-		if (vertical && isValidNode(matrix, curr, curr.x, curr.y + 1, piece, neighbors)) {
+		if (vertical && isValidNode(b, matrix, curr, curr.x, curr.y + 1, piece, neighbors)) {
 			neighbors.add(new Node(curr.x, curr.y + 1, curr.distance + 1));
 		}
 		// diagonally down and right
-		if (negativeDiagonal && isValidNode(matrix, curr, curr.x + 1, curr.y + 1, piece, neighbors)) {
+		if (negativeDiagonal && isValidNode(b, matrix, curr, curr.x + 1, curr.y + 1, piece, neighbors)) {
 			neighbors.add(new Node(curr.x + 1, curr.y + 1, curr.distance + 1));
 		}
 		// diagonally up and left
-		if (negativeDiagonal && isValidNode(matrix, curr, curr.x - 1, curr.y - 1, piece, neighbors)) {
+		if (negativeDiagonal && isValidNode(b, matrix, curr, curr.x - 1, curr.y - 1, piece, neighbors)) {
 			neighbors.add(new Node(curr.x - 1, curr.y - 1, curr.distance + 1));
 		}
 		// diagonally down and left
-		if (positiveDiagonal && isValidNode(matrix, curr, curr.x + 1, curr.y - 1, piece, neighbors)) {
+		if (positiveDiagonal && isValidNode(b, matrix, curr, curr.x + 1, curr.y - 1, piece, neighbors)) {
 			neighbors.add(new Node(curr.x + 1, curr.y - 1, curr.distance + 1));
 		}
 		// diagonally up and right
-		if (positiveDiagonal && isValidNode(matrix, curr, curr.x - 1, curr.y + 1, piece, neighbors)) {
+		if (positiveDiagonal && isValidNode(b, matrix, curr, curr.x - 1, curr.y + 1, piece, neighbors)) {
 			neighbors.add(new Node(curr.x - 1, curr.y + 1, curr.distance + 1));
 		}
     }
@@ -222,37 +222,37 @@ public class SquarePathfinding extends AbstractPathfindingForSquareBoards
      * @param neighbors list of node's neighbors
      * @param piece an EscapePiece
      */
-    public static void omniMovement(Node curr, char[][] matrix, List<Node> neighbors, EscapePiece piece) {
+    public static void omniMovement(Board b, Node curr, char[][] matrix, List<Node> neighbors, EscapePiece piece) {
     	// up (on matrix)
-    	if (isValidNode(matrix, curr, curr.x - 1, curr.y, piece, neighbors)) {
+    	if (isValidNode(b, matrix, curr, curr.x - 1, curr.y, piece, neighbors)) {
     		neighbors.add(new Node(curr.x - 1, curr.y, curr.distance + 1));
     	}
     	// down
-    	if (isValidNode(matrix, curr, curr.x + 1, curr.y, piece, neighbors)) {
+    	if (isValidNode(b, matrix, curr, curr.x + 1, curr.y, piece, neighbors)) {
     		neighbors.add(new Node(curr.x + 1, curr.y, curr.distance + 1));
     	}
     	// left
-    	if (isValidNode(matrix, curr, curr.x, curr.y - 1, piece, neighbors)) {
+    	if (isValidNode(b, matrix, curr, curr.x, curr.y - 1, piece, neighbors)) {
     		neighbors.add(new Node(curr.x, curr.y - 1, curr.distance + 1));
     	}
     	// right
-    	if (isValidNode(matrix, curr, curr.x, curr.y + 1, piece, neighbors)) {
+    	if (isValidNode(b, matrix, curr, curr.x, curr.y + 1, piece, neighbors)) {
     		neighbors.add(new Node(curr.x, curr.y + 1, curr.distance + 1));
     	}
     	// diagonally down and right
-    	if (isValidNode(matrix, curr, curr.x + 1, curr.y + 1, piece, neighbors)) {
+    	if (isValidNode(b, matrix, curr, curr.x + 1, curr.y + 1, piece, neighbors)) {
     		neighbors.add(new Node(curr.x + 1, curr.y + 1, curr.distance + 1));
     	}
     	// diagonally up and left
-    	if (isValidNode(matrix, curr, curr.x - 1, curr.y - 1, piece, neighbors)) {
+    	if (isValidNode(b, matrix, curr, curr.x - 1, curr.y - 1, piece, neighbors)) {
     		neighbors.add(new Node(curr.x - 1, curr.y - 1, curr.distance + 1));
     	}
     	// diagonally down and left
-    	if (isValidNode(matrix, curr, curr.x + 1, curr.y - 1, piece, neighbors)) {
+    	if (isValidNode(b, matrix, curr, curr.x + 1, curr.y - 1, piece, neighbors)) {
     		neighbors.add(new Node(curr.x + 1, curr.y - 1, curr.distance + 1));
     	}
     	// diagonally up and right
-    	if (isValidNode(matrix, curr, curr.x - 1, curr.y + 1, piece, neighbors)) {
+    	if (isValidNode(b, matrix, curr, curr.x - 1, curr.y + 1, piece, neighbors)) {
     		neighbors.add(new Node(curr.x - 1, curr.y + 1, curr.distance + 1));
     	}	
     }

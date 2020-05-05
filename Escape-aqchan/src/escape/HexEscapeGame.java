@@ -11,13 +11,11 @@
  *******************************************************************************/
 
 package escape;
-import java.util.*;
 import escape.board.*;
 import escape.board.coordinate.*;
 import escape.pathfinding.*;
 import escape.piece.*;
 import escape.util.*;
-import escape.util.PieceTypeInitializer.PieceAttribute;
 
 /**
  * Description
