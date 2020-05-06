@@ -13,7 +13,7 @@
 package escape.pathfinding;
 
 /**
- * Source: https://www.techiedelight.com/find-shortest-path-source-destination-matrix-satisfies-given-constraints/
+ * Node class for pathfinding
  * @version May 1, 2020
  */
 public class Node

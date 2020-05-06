@@ -41,8 +41,8 @@ public abstract class AbstractEscapeGame implements EscapeGameManager<Coordinate
 	/*
 	 * @see escape.EscapeGameManager#getPieceAt(escape.board.coordinate.Coordinate)
 	 * Gets the piece at a given coordinate, returns null if there is none
-	 * @param coordinate
-	 * @return
+	 * @param coordinate the given coordinate
+	 * @return an EscapePiece
 	 */
 	@Override
 	public EscapePiece getPieceAt(Coordinate coordinate)
@@ -53,9 +53,9 @@ public abstract class AbstractEscapeGame implements EscapeGameManager<Coordinate
 	/*
 	 * @see escape.EscapeGameManager#makeCoordinate(int, int)
 	 * Determines the coordinate type and creates the respective coordinate
-	 * @param x
-	 * @param y
-	 * @return
+	 * @param x the x-coordinate
+	 * @param y the y-coordinate
+	 * @return a Coordinate
 	 */
 	@Override
 	public Coordinate makeCoordinate(int x, int y)
@@ -69,8 +69,8 @@ public abstract class AbstractEscapeGame implements EscapeGameManager<Coordinate
 	}
 	
 	/**
-	 * Determine if a piece exists at the from location
-	 * @param from HexCoordinate
+	 * Determines if a piece exists at the from location
+	 * @param from a Coordinate
 	 * @return true if there exists a piece at the from location, otherwise false
 	 */
 	public boolean isFromPieceAtLocation(Coordinate from)
@@ -80,7 +80,7 @@ public abstract class AbstractEscapeGame implements EscapeGameManager<Coordinate
 	
 	/**
 	 * Determines if the move is within the distance requirements
-	 * @param distance path distance
+	 * @param distance the total distance of the generated path
 	 * @param piece an EscapePiece
 	 * @return true if the distance is within the limit, otherwise false
 	 */

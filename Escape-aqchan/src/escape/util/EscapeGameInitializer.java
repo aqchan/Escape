@@ -118,16 +118,16 @@ public class EscapeGameInitializer
 		this.pieceTypes = types;
 	}
 
-	/*
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString()
-	{
-		return "EscapeGameInitializer [xMax=" + xMax + ", yMax=" + yMax
-		    + ", coordinateType=" + coordinateType + ", locationInitializers="
-		    + Arrays.toString(locationInitializers) + ", types="
-		    + Arrays.toString(pieceTypes) + "]";
-	}
+//	/*
+//	 * @see java.lang.Object#toString()
+//	 */
+//	@Override
+//	public String toString()
+//	{
+//		return "EscapeGameInitializer [xMax=" + xMax + ", yMax=" + yMax
+//		    + ", coordinateType=" + coordinateType + ", locationInitializers="
+//		    + Arrays.toString(locationInitializers) + ", types="
+//		    + Arrays.toString(pieceTypes) + "]";
+//	}
 	
 }

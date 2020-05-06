@@ -27,6 +27,12 @@ public class OrthoSquareBoard implements Board<OrthoSquareCoordinate>
 	Map<OrthoSquareCoordinate, EscapePiece> pieces;
 	
 	private final int xMax, yMax;
+	
+	/**
+	 * OrthoSquare Board
+	 * @param xMax the maximum x-dimension of board
+	 * @param yMax the maximum y-dimension of board
+	 */
 	public OrthoSquareBoard(int xMax, int yMax)
 	{
 		this.xMax = xMax;
@@ -63,8 +69,8 @@ public class OrthoSquareBoard implements Board<OrthoSquareCoordinate>
 	
 	/**
 	 * Removes piece at specified coordinate
-	 * @param p
-	 * @param coord
+	 * @param p an EscapePiece
+	 * @param coord the coordinate to remove the piece at
 	 */
 	public void removePieceAt(EscapePiece p, OrthoSquareCoordinate coord) 
 	{
@@ -73,7 +79,7 @@ public class OrthoSquareBoard implements Board<OrthoSquareCoordinate>
 	
 	/**
 	 * Determines if coordinates are within the constraints of the board
-	 * @param coord
+	 * @param coord an OrthoSquareCoordinate
 	 * @return true if the coordinate is within the boundaries of the board or false if it is not
 	 */
 	public boolean isValidCoords(OrthoSquareCoordinate coord)
@@ -86,7 +92,7 @@ public class OrthoSquareBoard implements Board<OrthoSquareCoordinate>
 	
 	/**
 	 * Determines if a piece can be placed on a particular coordinate
-	 * @param coord
+	 * @param coord an OrthoSquareCoordinate
 	 * @return true if the coordinate is a valid location to put a piece or false if it is not
 	 */
 	public boolean isValidLocation(OrthoSquareCoordinate coord)
@@ -97,17 +103,26 @@ public class OrthoSquareBoard implements Board<OrthoSquareCoordinate>
 		return true;
 	}
 	
+	/*
+	 * 
+	 * @see escape.board.Board#setLocationType(escape.board.coordinate.Coordinate, escape.board.LocationType)
+	 */
 	public void setLocationType(Coordinate c, LocationType lt)
 	{
 		orthoSquares.put((OrthoSquareCoordinate) c, lt);
 	}
 
-	
+	/**
+	 * @return a piece map
+	 */
 	public Map<OrthoSquareCoordinate, EscapePiece> getPieceMap()
 	{
 		return pieces;
 	}
 	
+	/**
+	 * @return a location map
+	 */
 	public Map<OrthoSquareCoordinate, LocationType> getLocationMap()
 	{
 		return orthoSquares;

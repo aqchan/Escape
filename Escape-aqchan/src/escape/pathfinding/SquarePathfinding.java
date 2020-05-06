@@ -80,13 +80,8 @@ public class SquarePathfinding extends AbstractPathfinding
 	 * @param src
 	 * @return distance of path or -1 if there is no path
 	 */
-	/*
-	 * @see escape.pathfinding.PathfinderStrategy#pathExists(escape.board.Board, escape.board.coordinate.Coordinate, escape.board.coordinate.Coordinate, escape.piece.EscapePiece)
-	 */
-//	@Override
 	public static int pathExists(SquareBoard board, SquareCoordinate src, SquareCoordinate dest, EscapePiece piece) {
 		char[][] matrix = createGraph(board, src, dest);
-		printMatrix(matrix);
 		
 		Node source = new Node(src.getX(), src.getY(), 0);
 		Queue<Node> queue = new LinkedList<Node>();
@@ -119,7 +114,9 @@ public class SquarePathfinding extends AbstractPathfinding
 		List<Node> neighbors = new LinkedList<Node>();
 		MovementPatternID m = piece.getMovementPatternID();
 		
-		if (m == null) { throw new EscapeException("You must input a valid movement type.");}
+		if (m == null) {
+			throw new EscapeException("You must input a valid movement type.", new NullPointerException());
+		}
 		switch(m) {
 			case DIAGONAL:
 				diagonalMovement(b, curr, matrix, neighbors, piece);

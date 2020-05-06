@@ -45,10 +45,9 @@ public class SquareEscapeGame extends AbstractEscapeGame
 		SquareCoordinate sFrom = (SquareCoordinate) from;
 		SquareCoordinate sTo = (SquareCoordinate) to;
 
-		// get from piece type and give it the movement
+		// Get from piece type and give it the movement
 		if (isFromPieceAtLocation(from) && !from.equals(to)) {
 	    	int distance = SquarePathfinding.pathExists(board, sFrom, sTo, piece);
-			System.out.println("path distance: " + distance);
 			
 			if (checkDistanceRequirements(distance, piece)) {
 				board.removePieceAt(piece, sFrom); // first remove the piece

@@ -15,6 +15,7 @@ package escape.pathfinding;
 import java.util.*;
 import escape.board.*;
 import escape.board.coordinate.*;
+import escape.exception.EscapeException;
 import escape.piece.*;
 
 /**
@@ -35,7 +36,7 @@ public class HexPathfinding extends AbstractPathfinding
 	 */
 	public static HexCoordinate getMaxValues(HexBoard b, HexCoordinate src, HexCoordinate dest) {		
 		int xMax = b.getxMax(), yMax = b.getyMax();
-		
+	
 		// "infinite" in x direction		
 		if (xMax == 0) { 	
 			for (Map.Entry mEntry : pieces.entrySet()) {	
@@ -61,6 +62,8 @@ public class HexPathfinding extends AbstractPathfinding
 			
 			yMax = Math.max(src.getY(), Math.max(dest.getY(), yMax));
 		}
+		System.out.println("xmax: " + xMax);
+		System.out.println("ymax: " + yMax);
 		return HexCoordinate.makeCoordinate(xMax, yMax);
 	}
 	
@@ -154,7 +157,6 @@ public class HexPathfinding extends AbstractPathfinding
 	 */
 	public static int pathExists(HexBoard board, HexCoordinate src, HexCoordinate dest, EscapePiece piece) {
 		char[][] matrix = createGraph(board, src, dest);
-		printMatrix(matrix);
 		
 		HexCoordinate minValues = getMinValues(board, src, dest);
 		int xOffset = Math.abs(minValues.getX());
@@ -190,13 +192,21 @@ public class HexPathfinding extends AbstractPathfinding
 	 */
 	private static List<Node> addNeighbors(Board b, Node curr, char[][] matrix, HexCoordinate src, HexCoordinate dest, EscapePiece piece) {
 		List<Node> neighbors = new LinkedList<Node>();
-		
-		if (piece.getMovementPatternID() == MovementPatternID.LINEAR) {
-			linearMovement(b, curr, matrix, src, dest, neighbors, piece);
-		} else if (piece.getMovementPatternID() == MovementPatternID.OMNI) {
-			omniMovement(b, curr, matrix, neighbors, piece);
-		}	
-		
+		MovementPatternID m = piece.getMovementPatternID();
+
+		if (m == null) {
+			throw new EscapeException("You must input a valid movement type.", new NullPointerException());
+		}
+		switch(m) {
+			case LINEAR:
+				linearMovement(b, curr, matrix, src, dest, neighbors, piece);
+				break;
+			case OMNI:
+				omniMovement(b, curr, matrix, neighbors, piece);
+				break;
+			default:
+				throw new EscapeException("Cannot have diagonal movement on an orthosquare board.");
+		}
 		return neighbors;
 	}
 	

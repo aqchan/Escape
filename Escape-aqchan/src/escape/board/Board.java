@@ -39,8 +39,8 @@ public interface Board<C extends Coordinate>
 
 	/**
 	 * Sets the location type
-	 * @param c
-	 * @param locationType
+	 * @param c the coordinate to set the location type at
+	 * @param locationType the type of location (clear, blocked, exit)
 	 */
 	void setLocationType(Coordinate c, LocationType locationType);
     

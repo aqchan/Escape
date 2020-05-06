@@ -19,6 +19,7 @@ import org.junit.jupiter.api.*;
 import escape.*;
 import escape.board.*;
 import escape.board.coordinate.*;
+import escape.exception.EscapeException;
 import escape.piece.*;
 
 /**
@@ -95,6 +96,31 @@ class HexBetaEscapeGameTests
     	assertTrue(e.move(e.makeCoordinate(0, -2), e.makeCoordinate(0, 1))); 
     	assertTrue(e.move(e.makeCoordinate(0, 1), e.makeCoordinate(1, -1))); 
     	assertTrue(e.move(e.makeCoordinate(1, -1), e.makeCoordinate(-3, 0))); 
+    }
+    
+    @Test
+    void hexInfiniteX() throws Exception 
+    {
+    	EscapeGameBuilder gameBuilder = new EscapeGameBuilder(new File("config/hexconfigs/HexInfiniteX.xml"));
+		EscapeGameManager e = gameBuilder.makeGameManager();
+
+		assertTrue(e.move(e.makeCoordinate(0, 5), e.makeCoordinate(-3, -2))); 
+		Assertions.assertThrows(EscapeException.class, () -> {
+			e.move(e.makeCoordinate(0, 0), e.makeCoordinate(0, 1)); // nonexistent movement type		
+		});
+		 
+		Assertions.assertThrows(EscapeException.class, () -> {
+			e.move(e.makeCoordinate(1, 1), e.makeCoordinate(1, 2)); // invalid movement type
+		});
+	}
+    
+    @Test
+    void hexInfiniteY() throws Exception 
+    {
+    	EscapeGameBuilder gameBuilder = new EscapeGameBuilder(new File("config/hexconfigs/HexInfiniteY.xml"));
+		EscapeGameManager e = gameBuilder.makeGameManager();
+		
+		assertTrue(e.move(e.makeCoordinate(5, 0), e.makeCoordinate(0, 0))); 
     }
 
 }

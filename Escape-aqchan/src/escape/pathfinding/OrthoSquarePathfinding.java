@@ -81,7 +81,6 @@ public class OrthoSquarePathfinding extends AbstractPathfinding
 	 */
 	public static int pathExists(OrthoSquareBoard board, OrthoSquareCoordinate src, OrthoSquareCoordinate dest, EscapePiece piece) {
 		char[][] matrix = createGraph((OrthoSquareBoard)board, src, dest);
-		printMatrix(matrix);
 		
 		Node source = new Node(src.getX(), src.getY(), 0);
 		Queue<Node> queue = new LinkedList<Node>();
@@ -115,7 +114,9 @@ public class OrthoSquarePathfinding extends AbstractPathfinding
 		List<Node> neighbors = new LinkedList<Node>();
 		MovementPatternID m = piece.getMovementPatternID();
 		
-		if (m == null) { throw new EscapeException("You must input a valid movement type."); }
+		if (m == null) {
+			throw new EscapeException("You must input a valid movement type.", new NullPointerException());
+		}
 		switch(m) {
 			case LINEAR:
 				linearMovement(b, curr, matrix, src, dest, neighbors, piece);

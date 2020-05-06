@@ -14,8 +14,7 @@ package escape.board;
 import java.util.*;
 import escape.board.coordinate.*;
 import escape.exception.EscapeException;
-import escape.piece.EscapePiece;
-import com.google.inject.Inject; 
+import escape.piece.EscapePiece; 
 
 
 /**
@@ -32,6 +31,11 @@ public class SquareBoard implements Board<SquareCoordinate>
 	
 	private final int xMax, yMax;
 	
+	/**
+	 * Square Board
+	 * @param xMax the maximum x-dimension of board
+	 * @param yMax the maximum y-dimension of board
+	 */
 	public SquareBoard(int xMax, int yMax)
 	{
 		this.xMax = xMax;
@@ -69,8 +73,8 @@ public class SquareBoard implements Board<SquareCoordinate>
 	
 	/**
 	 * Removes piece at specified coordinate
-	 * @param p
-	 * @param coord
+	 * @param p an EscapePiece
+	 * @param coord the coordinate to remove the piece at
 	 */
 	public void removePieceAt(EscapePiece p, SquareCoordinate coord) 
 	{
@@ -79,7 +83,7 @@ public class SquareBoard implements Board<SquareCoordinate>
 	
 	/**
 	 * Determines if coordinates are within the constraints of the board
-	 * @param coord
+	 * @param coord a SquareCoordinate
 	 * @return true if the coordinate is within the boundaries of the board or false if it is not
 	 */
 	public boolean isValidCoords(SquareCoordinate coord)
@@ -92,7 +96,7 @@ public class SquareBoard implements Board<SquareCoordinate>
 	
 	/**
 	 * Determines if a piece can be placed on a particular coordinate
-	 * @param coord
+	 * @param coord a SquareCoordinate
 	 * @return true if the coordinate is a valid location to put a piece or false if it is not
 	 */
 	public boolean isValidLocation(SquareCoordinate coord)
@@ -103,26 +107,40 @@ public class SquareBoard implements Board<SquareCoordinate>
 		return true;
 	}
 	
+	/*
+	 * @see escape.board.Board#setLocationType(escape.board.coordinate.Coordinate, escape.board.LocationType)
+	 */
 	public void setLocationType(Coordinate c, LocationType lt)
 	{
 		squares.put((SquareCoordinate) c, lt);
 	}
 	
-	
+	/**
+	 * @return a piece map
+	 */
 	public Map<SquareCoordinate, EscapePiece> getPieceMap()
 	{
 		return pieces;
 	}
 	
+	/**
+	 * @return a location map
+	 */
 	public Map<SquareCoordinate, LocationType> getLocationMap()
 	{
 		return squares;
 	}
 	
+	/**
+	 * @return maximum x-dimension of board
+	 */
 	public int getxMax() {
 		return xMax;
 	}
 	
+	/**
+	 * @return maximum y-dimension of board
+	 */
 	public int getyMax() {
 		return yMax;
 	}

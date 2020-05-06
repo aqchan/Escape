@@ -43,10 +43,9 @@ public class HexEscapeGame extends AbstractEscapeGame
 		HexCoordinate sFrom = (HexCoordinate) from;
 		HexCoordinate sTo = (HexCoordinate) to;
 
-		// get from piece type and give it the movement
+		// Get from piece type and give it the movement
 		if (isFromPieceAtLocation(from) && !from.equals(to)) {
 	    	int distance = HexPathfinding.pathExists(board, sFrom, sTo, piece);
-			System.out.println("path distance: " + distance);
 			
 			if (checkDistanceRequirements(distance, piece)) {
 				board.removePieceAt(piece, sFrom); // first remove the piece

@@ -2,16 +2,11 @@
 <escapeGameInitializer>
 	<coordinateType>HEX</coordinateType>
     <!-- Board items -->
+    <xMax>5</xMax>
+    <yMax>0</yMax>
     <locationInitializers> <!-- Test piece 1 -->
-        <x>0</x>
-        <y>-2</y>
-        <locationType>CLEAR</locationType>
-        <player>PLAYER1</player>
-        <pieceName>HORSE</pieceName>
-    </locationInitializers>
-    <locationInitializers> <!-- Test piece 2 -->
-        <x>-2</x>
-        <y>2</y>
+        <x>5</x>
+        <y>0</y>
         <locationType>CLEAR</locationType>
         <player>PLAYER1</player>
         <pieceName>HORSE</pieceName>
@@ -19,12 +14,12 @@
 
     <!-- Piece items, an array of pieceTypes, 1 or more -->
     <pieceTypes>
-        <movementPattern>LINEAR</movementPattern>
+        <movementPattern>OMNI</movementPattern>
         <pieceName>HORSE</pieceName>
         <attributes>
             <id>DISTANCE</id>
             <attrType>INTEGER</attrType>
-            <intValue>5</intValue>
+            <intValue>10</intValue>
         </attributes>
     </pieceTypes>
 </escapeGameInitializer>

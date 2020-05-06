@@ -13,7 +13,6 @@
 package escape.board.coordinate;
 
 import java.util.Objects;
-import escape.exception.EscapeException;
 
 /**
  * Description
@@ -24,12 +23,23 @@ public class OrthoSquareCoordinate implements Coordinate
 	private final int x;
     private final int y;
     
+    /**
+	  * OrthoSquareCoordinate
+	  * @param x the x-coordinate
+	  * @param y the y-coordinate
+	  */ 
     private OrthoSquareCoordinate(int x, int y)
     {
     	this.x = x;
     	this.y = y;
     }
     
+    /**
+	  * Static factory method that creates a coordinate
+	  * @param x the x-coordinate
+	  * @param y the y-coordinate
+	  * @return an OrthoSquareCoordinate
+	  */
     public static OrthoSquareCoordinate makeCoordinate(int x, int y)
     {
     	return new OrthoSquareCoordinate(x, y);
