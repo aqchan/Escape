@@ -1,5 +1,5 @@
 /*******************************************************************************
- * This files was developed for CS4233: Object-Oriented Analysis & Design.
+F * This files was developed for CS4233: Object-Oriented Analysis & Design.
  * The course was taken at Worcester Polytechnic Institute.
  *
  * All rights reserved. This program and the accompanying materials
@@ -21,10 +21,10 @@ import escape.piece.EscapePiece;
  * Description
  * @version Apr 14, 2020
  */
-public class OrthoSquareBoard implements Board<OrthoSquareCoordinate>
+public class OrthoSquareBoard extends EscapeBoard
 {
-	Map<OrthoSquareCoordinate, LocationType> orthoSquares;
-	Map<OrthoSquareCoordinate, EscapePiece> pieces;
+	Map<EscapeCoordinate, LocationType> orthoSquares;
+	Map<EscapeCoordinate, EscapePiece> pieces;
 	
 	private final int xMax, yMax;
 	
@@ -37,15 +37,15 @@ public class OrthoSquareBoard implements Board<OrthoSquareCoordinate>
 	{
 		this.xMax = xMax;
 		this.yMax = yMax;
-		pieces = new HashMap<OrthoSquareCoordinate, EscapePiece>();
-		orthoSquares = new HashMap<OrthoSquareCoordinate, LocationType>();
+		pieces = new HashMap<EscapeCoordinate, EscapePiece>();
+		orthoSquares = new HashMap<EscapeCoordinate, LocationType>();
 	}
 	
 	/*
 	 * @see escape.board.Board#getPieceAt(escape.board.coordinate.Coordinate)
 	 */
 	@Override
-	public EscapePiece getPieceAt(OrthoSquareCoordinate coord)
+	public EscapePiece getPieceAt(EscapeCoordinate coord)
 	{
 		return pieces.get(coord);
 	}
@@ -54,16 +54,32 @@ public class OrthoSquareBoard implements Board<OrthoSquareCoordinate>
 	 * @see escape.board.Board#putPieceAt(escape.piece.EscapePiece, escape.board.coordinate.Coordinate)
 	 */
 	@Override
-	public void putPieceAt(EscapePiece p, OrthoSquareCoordinate coord)
+	public void putPieceAt(EscapePiece p, EscapeCoordinate coord)
 	{
-		// orthosquare boards can only be finite
-		if (isValidCoords(coord) && isValidLocation(coord)) {
-			pieces.put(coord, p);
+		// check if there is already a piece at the given coordinate
+		if (pieces.containsKey(coord)) {
+			if (isValidCapture(p, coord)) {
+
+				if (isValidCoords(coord) && isValidLocation(coord)) {
+					pieces.put(coord, p);
+				}
+										
+				// remove the piece from the EXIT location after putting it down
+				if (orthoSquares.get(coord) == LocationType.EXIT) {
+					pieces.remove(coord, p);
+				}
+			}
 		}
-				
-		// remove the piece from the EXIT location after putting it down
-		if (orthoSquares.get(coord) == LocationType.EXIT) {
-			pieces.remove(coord, p);
+		else {
+			// orthosquare boards can only be finite
+			if (isValidCoords(coord) && isValidLocation(coord)) {
+				pieces.put(coord, p);
+			}
+					
+			// remove the piece from the EXIT location after putting it down
+			if (orthoSquares.get(coord) == LocationType.EXIT) {
+				pieces.remove(coord, p);
+			}
 		}
 	}
 	
@@ -72,17 +88,17 @@ public class OrthoSquareBoard implements Board<OrthoSquareCoordinate>
 	 * @param p an EscapePiece
 	 * @param coord the coordinate to remove the piece at
 	 */
-	public void removePieceAt(EscapePiece p, OrthoSquareCoordinate coord) 
+	public void removePieceAt(EscapePiece p, EscapeCoordinate coord) 
 	{
 		pieces.remove(coord, p);
 	}
 	
 	/**
 	 * Determines if coordinates are within the constraints of the board
-	 * @param coord an OrthoSquareCoordinate
+	 * @param coord an EscapeCoordinate
 	 * @return true if the coordinate is within the boundaries of the board or false if it is not
 	 */
-	public boolean isValidCoords(OrthoSquareCoordinate coord)
+	public boolean isValidCoords(EscapeCoordinate coord)
 	{
 		if (coord.getX() > xMax || coord.getY() > yMax || coord.getX() < 1 || coord.getY() < 1) {
 			throw new EscapeException("At least one of the given coordinates are outside the boundaries of the board.");
@@ -92,14 +108,28 @@ public class OrthoSquareBoard implements Board<OrthoSquareCoordinate>
 	
 	/**
 	 * Determines if a piece can be placed on a particular coordinate
-	 * @param coord an OrthoSquareCoordinate
+	 * @param coord an EscapeCoordinate
 	 * @return true if the coordinate is a valid location to put a piece or false if it is not
 	 */
-	public boolean isValidLocation(OrthoSquareCoordinate coord)
+	public boolean isValidLocation(EscapeCoordinate coord)
 	{
 		if (orthoSquares.get(coord) == LocationType.BLOCK) {
 			throw new EscapeException("The given coordinate is not a valid location type.");
 		} 
+		return true;
+	}
+	
+	/**
+	 * Determines if a piece can be placed onto another piece to capture it
+	 * @param p an EscapePiece
+	 * @param coord the EscapeCoordinate the piece will land on
+	 * @return true if the piece can capture the piece located at the given coordinate
+	 */
+	public boolean isValidCapture(EscapePiece p, EscapeCoordinate coord) {
+		// check if the player type is the same
+		if (p.getPlayer() == pieces.get(coord).getPlayer()) {
+			throw new EscapeException("The piece cannot land on a piece of the same player type.");
+		}
 		return true;
 	}
 	
@@ -109,13 +139,13 @@ public class OrthoSquareBoard implements Board<OrthoSquareCoordinate>
 	 */
 	public void setLocationType(Coordinate c, LocationType lt)
 	{
-		orthoSquares.put((OrthoSquareCoordinate) c, lt);
+		orthoSquares.put((EscapeCoordinate) c, lt);
 	}
 
 	/**
 	 * @return a piece map
 	 */
-	public Map<OrthoSquareCoordinate, EscapePiece> getPieceMap()
+	public Map<EscapeCoordinate, EscapePiece> getPieceMap()
 	{
 		return pieces;
 	}
@@ -123,7 +153,7 @@ public class OrthoSquareBoard implements Board<OrthoSquareCoordinate>
 	/**
 	 * @return a location map
 	 */
-	public Map<OrthoSquareCoordinate, LocationType> getLocationMap()
+	public Map<EscapeCoordinate, LocationType> getLocationMap()
 	{
 		return orthoSquares;
 	}

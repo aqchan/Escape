@@ -14,6 +14,7 @@ package escape.pathfinding;
 
 import java.util.*;
 import escape.board.*;
+import escape.board.coordinate.*;
 import escape.piece.*;
 import escape.util.PieceTypeInitializer.PieceAttribute;
 

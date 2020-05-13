@@ -14,7 +14,7 @@ package escape.board;
 import java.util.*;
 import escape.board.coordinate.*;
 import escape.exception.EscapeException;
-import escape.piece.EscapePiece; 
+import escape.piece.*; 
 
 
 /**
@@ -24,10 +24,10 @@ import escape.piece.EscapePiece;
  * would naturally add methods based upon their design.
  * @version Apr 2, 2020
  */
-public class SquareBoard implements Board<SquareCoordinate>
+public class SquareBoard extends EscapeBoard
 {
-	Map<SquareCoordinate, EscapePiece> pieces;
-	Map<SquareCoordinate, LocationType> squares;
+	Map<EscapeCoordinate, EscapePiece> pieces;
+	Map<EscapeCoordinate, LocationType> squares;
 	
 	private final int xMax, yMax;
 	
@@ -40,8 +40,8 @@ public class SquareBoard implements Board<SquareCoordinate>
 	{
 		this.xMax = xMax;
 		this.yMax = yMax;
-		pieces = new HashMap<SquareCoordinate, EscapePiece>();
-		squares = new HashMap<SquareCoordinate, LocationType>();
+		pieces = new HashMap<EscapeCoordinate, EscapePiece>();
+		squares = new HashMap<EscapeCoordinate, LocationType>();
 	}
 	
 	
@@ -49,7 +49,7 @@ public class SquareBoard implements Board<SquareCoordinate>
 	 * @see escape.board.Board#getPieceAt(escape.board.coordinate.Coordinate)
 	 */
 	@Override
-	public EscapePiece getPieceAt(SquareCoordinate coord)
+	public EscapePiece getPieceAt(EscapeCoordinate coord)
 	{
 		return pieces.get(coord);
 	}
@@ -58,16 +58,32 @@ public class SquareBoard implements Board<SquareCoordinate>
 	 * @see escape.board.Board#putPieceAt(escape.piece.EscapePiece, escape.board.coordinate.Coordinate)
 	 */
 	@Override
-	public void putPieceAt(EscapePiece p, SquareCoordinate coord)
+	public void putPieceAt(EscapePiece p, EscapeCoordinate coord)
 	{
-		// square boards can only be finite
-		if (isValidCoords(coord) && isValidLocation(coord)) {
-			pieces.put(coord, p);
+		// check if there is already a piece at the given coordinate
+		if (pieces.containsKey(coord)) {
+			if (isValidCapture(p, coord)) {
+
+				if (isValidCoords(coord) && isValidLocation(coord)) {
+					pieces.put(coord, p);
+				}
+										
+				// remove the piece from the EXIT location after putting it down
+				if (squares.get(coord) == LocationType.EXIT) {
+					pieces.remove(coord, p);
+				}
+			}
 		}
-		
-		// remove the piece from the EXIT location after putting it down
-		if (squares.get(coord) == LocationType.EXIT) {
-			pieces.remove(coord, p);
+		else {
+			// square boards can only be finite
+			if (isValidCoords(coord) && isValidLocation(coord)) {
+				pieces.put(coord, p);
+			}
+			
+			// remove the piece from the EXIT location after putting it down
+			if (squares.get(coord) == LocationType.EXIT) {
+				pieces.remove(coord, p);
+			}
 		}
 	}
 	
@@ -76,7 +92,7 @@ public class SquareBoard implements Board<SquareCoordinate>
 	 * @param p an EscapePiece
 	 * @param coord the coordinate to remove the piece at
 	 */
-	public void removePieceAt(EscapePiece p, SquareCoordinate coord) 
+	public void removePieceAt(EscapePiece p, EscapeCoordinate coord) 
 	{
 		pieces.remove(coord, p);
 	}
@@ -86,7 +102,7 @@ public class SquareBoard implements Board<SquareCoordinate>
 	 * @param coord a SquareCoordinate
 	 * @return true if the coordinate is within the boundaries of the board or false if it is not
 	 */
-	public boolean isValidCoords(SquareCoordinate coord)
+	public boolean isValidCoords(EscapeCoordinate coord)
 	{
 		if (coord.getX() > xMax || coord.getY() > yMax || coord.getX() < 1 || coord.getY() < 1) {
 			throw new EscapeException("At least one of the given coordinates are outside the boundaries of the board.");
@@ -99,11 +115,26 @@ public class SquareBoard implements Board<SquareCoordinate>
 	 * @param coord a SquareCoordinate
 	 * @return true if the coordinate is a valid location to put a piece or false if it is not
 	 */
-	public boolean isValidLocation(SquareCoordinate coord)
+	public boolean isValidLocation(EscapeCoordinate coord)
 	{
 		if (squares.get(coord) == LocationType.BLOCK) {
 			throw new EscapeException("The given coordinate is not a valid location type.");
 		} 
+		return true;
+	}
+	
+	
+	/**
+	 * Determines if a piece can be placed onto another piece to capture it
+	 * @param p an EscapePiece
+	 * @param coord the SquareCoordinate the piece will land on
+	 * @return true if the piece can capture the piece located at the given coordinate
+	 */
+	public boolean isValidCapture(EscapePiece p, EscapeCoordinate coord) {
+		// check if the player type is the same
+		if (p.getPlayer() == pieces.get(coord).getPlayer()) {
+			throw new EscapeException("The piece cannot land on a piece of the same player type.");
+		}
 		return true;
 	}
 	
@@ -112,13 +143,13 @@ public class SquareBoard implements Board<SquareCoordinate>
 	 */
 	public void setLocationType(Coordinate c, LocationType lt)
 	{
-		squares.put((SquareCoordinate) c, lt);
+		squares.put((EscapeCoordinate) c, lt);
 	}
 	
 	/**
 	 * @return a piece map
 	 */
-	public Map<SquareCoordinate, EscapePiece> getPieceMap()
+	public Map<EscapeCoordinate, EscapePiece> getPieceMap()
 	{
 		return pieces;
 	}
@@ -126,7 +157,7 @@ public class SquareBoard implements Board<SquareCoordinate>
 	/**
 	 * @return a location map
 	 */
-	public Map<SquareCoordinate, LocationType> getLocationMap()
+	public Map<EscapeCoordinate, LocationType> getLocationMap()
 	{
 		return squares;
 	}

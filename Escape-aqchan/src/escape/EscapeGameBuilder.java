@@ -12,7 +12,6 @@
 
 package escape;
 
-import static escape.board.coordinate.CoordinateID.*;
 import java.io.*;
 import javax.xml.bind.*;
 import escape.board.*;
@@ -54,9 +53,7 @@ public class EscapeGameBuilder
      */
     public EscapeGameManager makeGameManager()
     {
-    	return gameInitializer.getCoordinateType() == HEX ? new HexEscapeGame(gameInitializer)
-	        	: gameInitializer.getCoordinateType() == ORTHOSQUARE ? new OrthoSquareEscapeGame(gameInitializer)
-	        	: new SquareEscapeGame(gameInitializer);
+    	return new EscapeGame(gameInitializer);
     }
     
     

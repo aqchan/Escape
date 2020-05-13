@@ -14,7 +14,7 @@ package escape.pathfinding;
 
 import java.util.*;
 import escape.board.*;
-import escape.board.coordinate.OrthoSquareCoordinate;
+import escape.board.coordinate.EscapeCoordinate;
 import escape.exception.EscapeException;
 import escape.piece.*;
 
@@ -22,56 +22,8 @@ import escape.piece.*;
  * OrthoSquare Path Finding
  * @version May 3, 2020
  */
-public class OrthoSquarePathfinding extends AbstractPathfinding
+public class OrthoSquarePathfindingStrategy extends AbstractPathfinding implements PathfindingStrategy
 {
-	/**
-	 * Creates 2D matrix based on coordinates on board, modeling a graph
-	 * Initializes 2D matrix with pieces and location types
-	 * Block locations are filled with 'b'
-	 * Exit locations are filled with 'e'
-	 * Pieces are filled with 'p'
-	 * @return a 2D array of size [xMax+1][yMax+1] of 1's
-	 */
-	public static char[][] createGraph(OrthoSquareBoard b, OrthoSquareCoordinate src, OrthoSquareCoordinate dest) {
-		int xMax = b.getxMax();
-		int yMax = b.getyMax();
-		
-		Map<OrthoSquareCoordinate, EscapePiece> pieces = b.getPieceMap();
-		Map<OrthoSquareCoordinate, LocationType> locations = b.getLocationMap();
-		
-		OrthoSquareCoordinate sFrom = (OrthoSquareCoordinate) src;
-		OrthoSquareCoordinate sTo = (OrthoSquareCoordinate) dest;
-		
-		char[][] matrix = new char[xMax + 1][yMax + 1];
-		
-		// initially set each space to '1'
-		for (int i = 1; i < matrix.length; i++) {
-			for (int j = 1; j < matrix[i].length; j++) {
-				matrix[i][j] = '1';
-			}
-		}
-		
-		// go through pieces hash map and put them on board if any
-		for (Map.Entry mEntry : pieces.entrySet()) {
-			matrix[((OrthoSquareCoordinate)mEntry.getKey()).getX()][((OrthoSquareCoordinate)mEntry.getKey()).getY()] = 'p';
-		}
-		
-		// go through locations hash map and mark them as blocked or exit
-		for (Map.Entry mEntry : locations.entrySet()) {
-			if (mEntry.getValue() == LocationType.BLOCK) {
-				matrix[((OrthoSquareCoordinate)mEntry.getKey()).getX()][((OrthoSquareCoordinate)mEntry.getKey()).getY()] = 'b';
-			}
-			else if (mEntry.getValue() == LocationType.EXIT) {
-				matrix[((OrthoSquareCoordinate)mEntry.getKey()).getX()][((OrthoSquareCoordinate)mEntry.getKey()).getY()] = 'e';
-			}
-		}
-		
-		matrix[sFrom.getX()][sFrom.getY()] = 's';  // source
-		matrix[sTo.getX()][sTo.getY()] = 'X';      // destination
-		
-		return matrix;
-	}
-	
 	
 	/**
 	 * Source: https://medium.com/@manpreetsingh.16.11.87/shortest-path-in-a-2d-array-java-653921063884
@@ -79,8 +31,8 @@ public class OrthoSquarePathfinding extends AbstractPathfinding
 	 * @param src
 	 * @return distance of path or -1 if there is no path
 	 */
-	public static int pathExists(OrthoSquareBoard board, OrthoSquareCoordinate src, OrthoSquareCoordinate dest, EscapePiece piece) {
-		char[][] matrix = createGraph((OrthoSquareBoard)board, src, dest);
+	public int pathExists(EscapeBoard board, EscapeCoordinate src, EscapeCoordinate dest, EscapePiece piece) {
+		char[][] matrix = EscapeBoard.createGraph((OrthoSquareBoard)board, src, dest);
 		
 		Node source = new Node(src.getX(), src.getY(), 0);
 		Queue<Node> queue = new LinkedList<Node>();
@@ -110,7 +62,7 @@ public class OrthoSquarePathfinding extends AbstractPathfinding
 	 * @param piece an EscapePiece
 	 * @return a list of neighbors
 	 */
-	private static List<Node> addNeighbors(Board b, Node curr, char[][] matrix, OrthoSquareCoordinate src, OrthoSquareCoordinate dest, EscapePiece piece) {
+	private static List<Node> addNeighbors(Board b, Node curr, char[][] matrix, EscapeCoordinate src, EscapeCoordinate dest, EscapePiece piece) {
 		List<Node> neighbors = new LinkedList<Node>();
 		MovementPatternID m = piece.getMovementPatternID();
 		
@@ -143,7 +95,7 @@ public class OrthoSquarePathfinding extends AbstractPathfinding
      * @param neighbors list of node's neighbors
      * @param piece an EscapePiece
      */
-    public static void linearMovement(Board b, Node curr, char[][] matrix, OrthoSquareCoordinate src, OrthoSquareCoordinate dest, List<Node> neighbors, EscapePiece piece) {
+    public static void linearMovement(Board b, Node curr, char[][] matrix, EscapeCoordinate src, EscapeCoordinate dest, List<Node> neighbors, EscapePiece piece) {
     	boolean vertical = src.getX() == dest.getX();
 		boolean horizonal = src.getY() == dest.getY();
 		

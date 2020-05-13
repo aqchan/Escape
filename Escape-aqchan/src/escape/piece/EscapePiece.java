@@ -17,8 +17,6 @@ import escape.util.PieceTypeInitializer.PieceAttribute;
 /**
  * This is a class for Pieces.
  * 
- * You may change this class except for the signature of the static factory 
- * method makePiece() and the getter methods for the name and player.
  * 
  * @version Mar 28, 2020
  */
@@ -41,22 +39,6 @@ public class EscapePiece
     	this.movementPatternID = movementPatternID;
     	this.attributes = attributes;
     }
-    
-    
-	/**
-	 * Static factory method. This creates and returns the specified
-	 * Escape piece for the current game version.
-	 * 
-	 * DO NOT CHANGE THE SIGNATURE.
-	 * @param player the player the piece belongs to
-	 * @param name the piece name
-	 * @return the piece
-	 */
-	public static EscapePiece makePiece(Player player, PieceName name, MovementPatternID movementPatternID, PieceAttribute[] attributes)
-	{
-		return new EscapePiece(player, name, movementPatternID, attributes);
-	}
-	
     
     /**
 	 * @return the name

@@ -22,29 +22,29 @@ import escape.piece.*;
  * Description
  * @version May 3, 2020
  */
-public class HexPathfinding extends AbstractPathfinding
+public class HexPathfindingStrategy extends AbstractPathfinding implements PathfindingStrategy
 {
-	static Map<HexCoordinate, EscapePiece> pieces;
-	static Map<HexCoordinate, LocationType> locations;
+	static Map<EscapeCoordinate, EscapePiece> pieces;
+	static Map<EscapeCoordinate, LocationType> locations;
 	
 	/**
 	 * Gets the new max values if the board is infinite
 	 * @param b the board
 	 * @param src the starting coordinate
 	 * @param dest the ending coordinate
-	 * @return a HexCoordinate with the maximum values
+	 * @return a EscapeCoordinate with the maximum values
 	 */
-	public static HexCoordinate getMaxValues(HexBoard b, HexCoordinate src, HexCoordinate dest) {		
+	public static HexCoordinate getMaxValues(EscapeBoard b, EscapeCoordinate src, EscapeCoordinate dest) {		
 		int xMax = b.getxMax(), yMax = b.getyMax();
 	
 		// "infinite" in x direction		
 		if (xMax == 0) { 	
 			for (Map.Entry mEntry : pieces.entrySet()) {	
-				xMax = Math.max(((HexCoordinate)mEntry.getKey()).getX(), xMax);
+				xMax = Math.max(((EscapeCoordinate)mEntry.getKey()).getX(), xMax);
 			}
 			
 			for (Map.Entry mEntry : locations.entrySet()) {	
-				xMax = Math.max(((HexCoordinate)mEntry.getKey()).getX(), xMax);
+				xMax = Math.max(((EscapeCoordinate)mEntry.getKey()).getX(), xMax);
 			}
 			
 			xMax = Math.max(src.getX(), Math.max(dest.getX(), xMax));
@@ -53,17 +53,15 @@ public class HexPathfinding extends AbstractPathfinding
 		// "infinite" in y direction		
 		if (yMax == 0) {
 			for (Map.Entry mEntry : pieces.entrySet()) {	
-				yMax = Math.max(((HexCoordinate)mEntry.getKey()).getY(), yMax);							
+				yMax = Math.max(((EscapeCoordinate)mEntry.getKey()).getY(), yMax);							
 			}
 			
 			for (Map.Entry mEntry : locations.entrySet()) {	
-				yMax = Math.max(((HexCoordinate)mEntry.getKey()).getY(), yMax);
+				yMax = Math.max(((EscapeCoordinate)mEntry.getKey()).getY(), yMax);
 			}
 			
 			yMax = Math.max(src.getY(), Math.max(dest.getY(), yMax));
 		}
-		System.out.println("xmax: " + xMax);
-		System.out.println("ymax: " + yMax);
 		return HexCoordinate.makeCoordinate(xMax, yMax);
 	}
 	
@@ -73,21 +71,21 @@ public class HexPathfinding extends AbstractPathfinding
 	 * @param b the board
 	 * @param src the starting coordinate
 	 * @param dest the ending coordinate
-	 * @return a HexCoordinate with the minimum values
+	 * @return a EscapeCoordinate with the minimum values
 	 */
-	public static HexCoordinate getMinValues(HexBoard b, HexCoordinate src, HexCoordinate dest) {
+	public static HexCoordinate getMinValues(EscapeBoard b, EscapeCoordinate src, EscapeCoordinate dest) {
 		int minX = 0, minY = 0;
 		
 		// go through pieces to find smallest x or y value
 		for (Map.Entry mEntry : pieces.entrySet()) {	
-			minX = Math.min(((HexCoordinate)mEntry.getKey()).getX(), minX);
-			minY = Math.min(((HexCoordinate)mEntry.getKey()).getY(), minY);
+			minX = Math.min(((EscapeCoordinate)mEntry.getKey()).getX(), minX);
+			minY = Math.min(((EscapeCoordinate)mEntry.getKey()).getY(), minY);
 		}
 		
 		// go through locations to find smallest x or y value
 		for (Map.Entry mEntry : locations.entrySet()) {	
-			minX = Math.min(((HexCoordinate)mEntry.getKey()).getX(), minX);
-			minY = Math.min(((HexCoordinate)mEntry.getKey()).getY(), minY);
+			minX = Math.min(((EscapeCoordinate)mEntry.getKey()).getX(), minX);
+			minY = Math.min(((EscapeCoordinate)mEntry.getKey()).getY(), minY);
 		}
 		
 		// check source and destination x and y values
@@ -99,66 +97,20 @@ public class HexPathfinding extends AbstractPathfinding
 	
 	
 	/**
-	 * Creates 2D matrix based on coordinates on board, modeling a graph
-	 * Initializes 2D matrix with pieces and location types
-	 * Block locations are filled with 'b'
-	 * Exit locations are filled with 'e'
-	 * Pieces are filled with 'p'
-	 * @return a 2D array of size [xMax+1][yMax+1] of 1's
-	 */
-	public static char[][] createGraph(HexBoard b, HexCoordinate src, HexCoordinate dest) {
-		pieces = b.getPieceMap();
-		locations = b.getLocationMap();
-		
-		HexCoordinate minValues = getMinValues(b, src, dest);
-		HexCoordinate maxValues = getMaxValues(b, src, dest);
-		
-		int xOffset = Math.abs(minValues.getX());
-		int yOffset = Math.abs(minValues.getY());
-		
-		int newMaxX = maxValues.getX() + xOffset + 1;
-		int newMaxY = maxValues.getY() + yOffset + 1;
-
-		char[][] matrix = new char[newMaxX][newMaxY]; // create the grid dimensions
-
-		// initially set each space to '1'
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[i].length; j++) {
-				matrix[i][j] = '1';
-			}
-		}
-		
-		// go through pieces hash map and put them on board if any
-		for (Map.Entry mEntry : pieces.entrySet()) {	
-			matrix[((HexCoordinate)mEntry.getKey()).getX() + xOffset][((HexCoordinate)mEntry.getKey()).getY() + yOffset] = 'p';
-		}
-
-		// go through locations hash map and mark them as blocked or exit
-		for (Map.Entry mEntry : locations.entrySet()) {
-			if (mEntry.getValue() == LocationType.BLOCK) {
-				matrix[((HexCoordinate)mEntry.getKey()).getX() + xOffset][((HexCoordinate)mEntry.getKey()).getY() + yOffset] = 'b';
-			}
-			else if (mEntry.getValue() == LocationType.EXIT) {
-				matrix[((HexCoordinate)mEntry.getKey()).getX() + xOffset][((HexCoordinate)mEntry.getKey()).getY() + yOffset] = 'e';
-			}
-		}
-	
-		matrix[src.getX() + xOffset][src.getY() + yOffset] = 's';  // source
-		matrix[dest.getX() + xOffset][dest.getY() + yOffset] = 'X';      // destination
-		
-		return matrix;
-	}	
-	
-	/**
 	 * Source: https://medium.com/@manpreetsingh.16.11.87/shortest-path-in-a-2d-array-java-653921063884
 	 * @param matrix
 	 * @param src
 	 * @return distance of path or -1 if there is no path
 	 */
-	public static int pathExists(HexBoard board, HexCoordinate src, HexCoordinate dest, EscapePiece piece) {
-		char[][] matrix = createGraph(board, src, dest);
+	public int pathExists(EscapeBoard board, EscapeCoordinate src, EscapeCoordinate dest, EscapePiece piece) {
+		pieces = board.getPieceMap();
+		locations = board.getLocationMap();
 		
-		HexCoordinate minValues = getMinValues(board, src, dest);
+		EscapeCoordinate minValues = getMinValues(board, src, dest);
+		EscapeCoordinate maxValues = getMaxValues(board, src, dest);
+		
+		char[][] matrix = EscapeBoard.createGraph(board, src, dest, minValues, maxValues);
+		
 		int xOffset = Math.abs(minValues.getX());
 		int yOffset = Math.abs(minValues.getY());
 		
@@ -190,7 +142,7 @@ public class HexPathfinding extends AbstractPathfinding
 	 * @param piece an EscapePiece
 	 * @return a list of neighbors
 	 */
-	private static List<Node> addNeighbors(Board b, Node curr, char[][] matrix, HexCoordinate src, HexCoordinate dest, EscapePiece piece) {
+	private static List<Node> addNeighbors(Board b, Node curr, char[][] matrix, EscapeCoordinate src, EscapeCoordinate dest, EscapePiece piece) {
 		List<Node> neighbors = new LinkedList<Node>();
 		MovementPatternID m = piece.getMovementPatternID();
 
@@ -220,7 +172,7 @@ public class HexPathfinding extends AbstractPathfinding
      * @param neighbors list of node's neighbors
      * @param piece an EscapePiece
      */
-    public static void linearMovement(Board b, Node curr, char[][] matrix, HexCoordinate src, HexCoordinate dest, List<Node> neighbors, EscapePiece piece) {
+    public static void linearMovement(Board b, Node curr, char[][] matrix, EscapeCoordinate src, EscapeCoordinate dest, List<Node> neighbors, EscapePiece piece) {
     	boolean xValConstant = src.getX() == dest.getX();
     	boolean yValConstant = src.getY() == dest.getY();
 		boolean negativeDiagonal = (Math.abs(src.getX() - dest.getX()) == Math.abs(src.getY() - dest.getY()));

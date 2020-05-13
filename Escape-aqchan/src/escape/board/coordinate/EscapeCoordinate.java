@@ -7,31 +7,32 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Copyright ©2020 Gary F. Pollice
+ * Copyright ©2016 Gary F. Pollice
  *******************************************************************************/
 
-package escape;
+package escape.board.coordinate;
 
 /**
- * The interface for a client to use to get messages from the
- * game manager by registering an observer. Any implementation of this
- * must override the equals() method.
- * 
- * @version Apr 23, 2020
+ * Description
+ * @version May 12, 2020
  */
-public interface GameObserver
+public abstract class EscapeCoordinate implements Coordinate
 {
+
 	/**
-	* Receive a message from the game
-	* @param message
-	*/
-	void notify(String message);
+	 * Escape Coordinate
+	 */
+	public EscapeCoordinate() {}
 	
 	
 	/**
-	* Receive a message with the cause
-	* @param message
-	* @param cause
-	*/
-	void notify(String message, Throwable cause);    
+	 * @return the x
+	 */
+	public abstract int getX();
+
+	/**
+	 * @return the y
+	 */
+	public abstract int getY();
+
 }

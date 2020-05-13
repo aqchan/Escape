@@ -18,7 +18,7 @@ import java.util.Objects;
  * Description
  * @version Apr 13, 2020
  */
-public class OrthoSquareCoordinate implements Coordinate
+public class OrthoSquareCoordinate extends EscapeCoordinate
 {
 	private final int x;
     private final int y;
@@ -57,16 +57,16 @@ public class OrthoSquareCoordinate implements Coordinate
 		return xVal + yVal;
 	}
 	
-	/**
-	 * @return the x
+	/*
+	 * @see escape.board.coordinate.EscapeCoordinate#getX()
 	 */
 	public int getX()
 	{
 		return x;
 	}
 
-	/**
-	 * @return the y
+	/*
+	 * @see escape.board.coordinate.EscapeCoordinate#getY()
 	 */
 	public int getY()
 	{

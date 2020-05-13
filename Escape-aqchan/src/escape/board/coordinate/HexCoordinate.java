@@ -18,7 +18,7 @@ import java.util.Objects;
  * Description
  * @version Apr 13, 2020
  */
-public class HexCoordinate implements Coordinate
+public class HexCoordinate extends EscapeCoordinate
 {
 	 private final int x;
 	 private final int y;
@@ -59,21 +59,22 @@ public class HexCoordinate implements Coordinate
 		return Math.max(Math.max(xVal, yVal), zVal);
 	}
 	
-	/**
-	 * @return the x
+	/*
+	 * @see escape.board.coordinate.EscapeCoordinate#getX()
 	 */
 	public int getX()
 	{
 		return x;
 	}
 
-	/**
-	 * @return the y
+	/*
+	 * @see escape.board.coordinate.EscapeCoordinate#getY()
 	 */
 	public int getY()
 	{
 		return y;
 	}
+
 
 	/*
 	 * @see java.lang.Object#hashCode()

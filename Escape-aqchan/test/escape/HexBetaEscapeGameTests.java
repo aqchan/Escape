@@ -121,6 +121,7 @@ class HexBetaEscapeGameTests
 		EscapeGameManager e = gameBuilder.makeGameManager();
 		
 		assertTrue(e.move(e.makeCoordinate(5, 0), e.makeCoordinate(0, 0))); 
+		assertTrue(e.move(e.makeCoordinate(1, -1), e.makeCoordinate(-1, 1)));  // jump
     }
 
 }

@@ -21,7 +21,7 @@ import escape.piece.EscapePiece;
  * 
  * @version Mar 27, 2020
  */
-public class SquareCoordinate implements Coordinate
+public class SquareCoordinate extends EscapeCoordinate
 {
     private final int x;
     private final int y;
@@ -61,16 +61,17 @@ public class SquareCoordinate implements Coordinate
 		return Math.max(xVal, yVal);
 	}
 
-	/**
-	 * @return the x
+
+	/*
+	 * @see escape.board.coordinate.EscapeCoordinate#getX()
 	 */
 	public int getX()
 	{
 		return x;
 	}
 
-	/**
-	 * @return the y
+	/*
+	 * @see escape.board.coordinate.EscapeCoordinate#getY()
 	 */
 	public int getY()
 	{
@@ -101,6 +102,5 @@ public class SquareCoordinate implements Coordinate
 		SquareCoordinate other = (SquareCoordinate) obj;
 		return x == other.x && y == other.y;
 	}
-
 
 }

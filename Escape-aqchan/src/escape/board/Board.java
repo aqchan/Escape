@@ -12,7 +12,7 @@
 
 package escape.board;
 
-import escape.board.coordinate.Coordinate;
+import escape.board.coordinate.*;
 import escape.piece.EscapePiece;
 
 /**
@@ -43,5 +43,12 @@ public interface Board<C extends Coordinate>
 	 * @param locationType the type of location (clear, blocked, exit)
 	 */
 	void setLocationType(Coordinate c, LocationType locationType);
+	
+	/**
+	 * Removes piece at specified coordinate
+	 * @param p an EscapePiece
+	 * @param coord the coordinate to remove the piece at
+	 */
+	void removePieceAt(EscapePiece p, EscapeCoordinate coord);
     
 }

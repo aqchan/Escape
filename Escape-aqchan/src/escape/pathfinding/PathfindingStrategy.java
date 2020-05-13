@@ -7,31 +7,21 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Copyright ©2020 Gary F. Pollice
+ * Copyright ©2016 Gary F. Pollice
  *******************************************************************************/
 
-package escape;
+package escape.pathfinding;
+
+import escape.board.EscapeBoard;
+import escape.board.coordinate.EscapeCoordinate;
+import escape.piece.EscapePiece;
 
 /**
- * The interface for a client to use to get messages from the
- * game manager by registering an observer. Any implementation of this
- * must override the equals() method.
- * 
- * @version Apr 23, 2020
+ * Pathfinding Strategy
+ * @version May 13, 2020
  */
-public interface GameObserver
+public interface PathfindingStrategy
 {
-	/**
-	* Receive a message from the game
-	* @param message
-	*/
-	void notify(String message);
-	
-	
-	/**
-	* Receive a message with the cause
-	* @param message
-	* @param cause
-	*/
-	void notify(String message, Throwable cause);    
+	public int pathExists(EscapeBoard board, EscapeCoordinate src, EscapeCoordinate dest, EscapePiece piece);
+
 }

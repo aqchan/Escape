@@ -16,6 +16,7 @@ import static escape.board.coordinate.CoordinateID.*;
 import java.util.*;
 import escape.board.*;
 import escape.board.coordinate.*;
+import escape.pathfinding.*;
 import escape.piece.*;
 import escape.util.*;
 import escape.util.PieceTypeInitializer.PieceAttribute;
@@ -24,18 +25,53 @@ import escape.util.PieceTypeInitializer.PieceAttribute;
  * Description
  * @version Apr 29, 2020
  */
-public abstract class AbstractEscapeGame implements EscapeGameManager<Coordinate>
+public class EscapeGame implements EscapeGameManager<Coordinate>
 {
 	private EscapeGameInitializer e;
 	private Board board;
 	
 	/**
-	 * Abstract class
+	 * Escape Game
 	 */
-	public AbstractEscapeGame(EscapeGameInitializer escapeGameInitializer)
+	public EscapeGame(EscapeGameInitializer escapeGameInitializer)
 	{
 		this.e = escapeGameInitializer;
 		this.board = EscapeGameBuilder.makeBoard(escapeGameInitializer);
+	}
+	
+	/*
+	 * @see escape.EscapeGameManager#move(escape.board.coordinate.Coordinate, escape.board.coordinate.Coordinate)
+	 */
+	public boolean move(Coordinate from, Coordinate to)
+	{
+		EscapePiece piece = getPieceAt(from);
+		EscapeCoordinate sFrom = (EscapeCoordinate) from;
+		EscapeCoordinate sTo = (EscapeCoordinate) to;
+		EscapeBoard b = (EscapeBoard)board;
+
+		// Get from piece type and give it the movement
+		if (isFromPieceAtLocation(from) && !from.equals(to)) {
+			PathfindingContext context = new PathfindingContext();
+			
+			if (e.getCoordinateType() == HEX) {
+				context.setPathfindingStrategy(new HexPathfindingStrategy());
+			}
+			else if (e.getCoordinateType() == ORTHOSQUARE) {
+				context.setPathfindingStrategy(new OrthoSquarePathfindingStrategy());
+			}
+			else if (e.getCoordinateType() == SQUARE) {
+				context.setPathfindingStrategy(new SquarePathfindingStrategy());
+			}
+			
+			int distance = context.pathfind(b, sFrom, sTo, piece);
+			
+			if (checkDistanceRequirements(distance, piece)) {
+				board.removePieceAt(piece, sFrom); // first remove the piece
+				board.putPieceAt(piece, sTo); // then place it at its new spot on the board
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/*
@@ -101,14 +137,5 @@ public abstract class AbstractEscapeGame implements EscapeGameManager<Coordinate
 			}
 		}
 		return false;
-	}
-	
-	/**
-	 * Gets the board
-	 * @return
-	 */
-	public Board getBoard()
-	{
-		return this.board;
 	}
 }

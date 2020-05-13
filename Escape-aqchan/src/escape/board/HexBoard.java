@@ -21,10 +21,10 @@ import escape.piece.EscapePiece;
  * Description
  * @version Apr 14, 2020
  */
-public class HexBoard implements Board<HexCoordinate>
+public class HexBoard extends EscapeBoard
 {
-	Map<HexCoordinate, LocationType> hexagons;
-	Map<HexCoordinate, EscapePiece> pieces;
+	Map<EscapeCoordinate, LocationType> hexagons;
+	Map<EscapeCoordinate, EscapePiece> pieces;
 	
 	private final int xMax, yMax;
 	
@@ -37,15 +37,15 @@ public class HexBoard implements Board<HexCoordinate>
 	{
 		this.xMax = xMax;
 		this.yMax = yMax;
-		pieces = new HashMap<HexCoordinate, EscapePiece>();
-		hexagons = new HashMap<HexCoordinate, LocationType>();
+		pieces = new HashMap<EscapeCoordinate, EscapePiece>();
+		hexagons = new HashMap<EscapeCoordinate, LocationType>();
 	}
 	
 	/*
 	 * @see escape.board.Board#getPieceAt(escape.board.coordinate.Coordinate)
 	 */
 	@Override
-	public EscapePiece getPieceAt(HexCoordinate coord)
+	public EscapePiece getPieceAt(EscapeCoordinate coord)
 	{
 		return pieces.get(coord);
 	}
@@ -54,16 +54,32 @@ public class HexBoard implements Board<HexCoordinate>
 	 * @see escape.board.Board#putPieceAt(escape.piece.EscapePiece, escape.board.coordinate.Coordinate)
 	 */
 	@Override
-	public void putPieceAt(EscapePiece p, HexCoordinate coord)
+	public void putPieceAt(EscapePiece p, EscapeCoordinate coord)
 	{
-		// hex boards must have at least one infinite direction
-		if (isValidCoords(coord) && isValidLocation(coord)) {
-			pieces.put(coord, p);
+		// check if there is already a piece at the given coordinate
+		if (pieces.containsKey(coord)) {
+			if (isValidCapture(p, coord)) {
+
+				if (isValidCoords(coord) && isValidLocation(coord)) {
+					pieces.put(coord, p);
+				}
+								
+				// remove the piece from the EXIT location after putting it down
+				if (hexagons.get(coord) == LocationType.EXIT) {
+					pieces.remove(coord, p);
+				}
+			}
 		}
-		
-		// remove the piece from the EXIT location after putting it down
-		if (hexagons.get(coord) == LocationType.EXIT) {
-			pieces.remove(coord, p);
+		else {
+			// hex boards must have at least one infinite direction
+			if (isValidCoords(coord) && isValidLocation(coord)) {
+				pieces.put(coord, p);
+			}
+			
+			// remove the piece from the EXIT location after putting it down
+			if (hexagons.get(coord) == LocationType.EXIT) {
+				pieces.remove(coord, p);
+			}
 		}
 	}
 	
@@ -72,17 +88,17 @@ public class HexBoard implements Board<HexCoordinate>
 	 * @param p an EscapePiece
 	 * @param coord the coordinate to remove the piece at
 	 */
-	public void removePieceAt(EscapePiece p, HexCoordinate coord) 
+	public void removePieceAt(EscapePiece p, EscapeCoordinate coord) 
 	{
 		pieces.remove(coord, p);
 	}
 	
 	/**
 	 * Determines if coordinates are within the constraints of the board
-	 * @param coord a HexCoordinate
+	 * @param coord a EscapeCoordinate
 	 * @return true if the coordinate is within the boundaries of the board or false if it is not
 	 */
-	public boolean isValidCoords(HexCoordinate coord)
+	public boolean isValidCoords(EscapeCoordinate coord)
 	{
 		// infinite in both directions
 		if (xMax == 0 && yMax == 0) {
@@ -105,14 +121,27 @@ public class HexBoard implements Board<HexCoordinate>
 	
 	/**
 	 * Determines if a piece can be placed on a particular coordinate
-	 * @param coord a HexCoordinate
+	 * @param coord a EscapeCoordinate
 	 * @return true if the coordinate is a valid location to put a piece or false if it is not
 	 */
-	public boolean isValidLocation(HexCoordinate coord)
+	public boolean isValidLocation(EscapeCoordinate coord)
 	{
 		if (hexagons.get(coord) == LocationType.BLOCK) {
 			throw new EscapeException("The given coordinate is not a valid location type.");
 		} 
+		return true;
+	}
+	
+	/**
+	 * Determines if a piece can be placed onto another piece to capture it
+	 * @param p an EscapePiece
+	 * @param coord the SquareCoordinate the piece will land on
+	 * @return true if the piece can capture the piece located at the given coordinate
+	 */
+	public boolean isValidCapture(EscapePiece p, EscapeCoordinate coord) {
+		if (p.getPlayer() == pieces.get(coord).getPlayer()) {
+			throw new EscapeException("The piece cannot land on a piece of the same player type.");
+		}
 		return true;
 	}
 	
@@ -122,13 +151,13 @@ public class HexBoard implements Board<HexCoordinate>
 	 */
 	public void setLocationType(Coordinate c, LocationType lt)
 	{
-		hexagons.put((HexCoordinate) c, lt);
+		hexagons.put((EscapeCoordinate) c, lt);
 	}
 
 	/**
 	 * @return the piece map
 	 */
-	public Map<HexCoordinate, EscapePiece> getPieceMap()
+	public Map<EscapeCoordinate, EscapePiece> getPieceMap()
 	{
 		return pieces;
 	}
@@ -136,7 +165,7 @@ public class HexBoard implements Board<HexCoordinate>
 	/**
 	 * @return the location map of hexes
 	 */
-	public Map<HexCoordinate, LocationType> getLocationMap()
+	public Map<EscapeCoordinate, LocationType> getLocationMap()
 	{
 		return hexagons;
 	}
