@@ -18,12 +18,13 @@ import escape.board.*;
 import escape.board.coordinate.*;
 import escape.pathfinding.*;
 import escape.piece.*;
-import escape.rule.*;
 import escape.util.*;
 import escape.util.PieceTypeInitializer.PieceAttribute;
 
 /**
- * Description
+ * Escape Game
+ * This class is a client and is an instance of 
+ * an EscapeGameManager.
  * @version Apr 29, 2020
  */
 public class EscapeGame implements EscapeGameManager<Coordinate>
@@ -45,6 +46,28 @@ public class EscapeGame implements EscapeGameManager<Coordinate>
 		addObserver(new EscapeGameObserver());
 	}
 
+	@Override
+	public GameObserver addObserver(GameObserver observer)
+	{
+		observers.add(observer);
+		return observer;
+	}
+
+	@Override
+	public GameObserver removeObserver(GameObserver observer)
+	{
+		observers.remove(observer);
+		return observer;
+	}
+
+
+	public void notifyObservers(String message)
+	{
+		for (GameObserver observer : observers) {
+			observer.notify(message);
+		}
+	}
+	
 	/*
 	 * @see escape.EscapeGameManager#move(escape.board.coordinate.Coordinate, escape.board.coordinate.Coordinate)
 	 */
@@ -61,7 +84,7 @@ public class EscapeGame implements EscapeGameManager<Coordinate>
 		EscapeBoard b = (EscapeBoard)board;
 
 		if (piece.getPlayer() != gameState.getPlayerTurn()) {
-			notifyObservers("Tried to move piece but it was not its turn.");
+			notifyObservers(piece.getPlayer() + " tried to move, but it was not their turn.");
 			return false;
 		}
 
@@ -164,28 +187,5 @@ public class EscapeGame implements EscapeGameManager<Coordinate>
 			}
 		}
 		return false;
-	}
-
-
-	@Override
-	public GameObserver addObserver(GameObserver observer)
-	{
-		observers.add(observer);
-		return observer;
-	}
-
-	@Override
-	public GameObserver removeObserver(GameObserver observer)
-	{
-		observers.remove(observer);
-		return observer;
-	}
-
-
-	public void notifyObservers(String message)
-	{
-		for (GameObserver observer : observers) {
-			observer.notify(message);
-		}
 	}
 }

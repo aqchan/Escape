@@ -53,7 +53,7 @@ public class EscapePiece
 		this.name = name;
 		this.movementPatternID = null;
 		this.attributes = null;
-		this.value = setInitialValue();;
+		this.value = 1;
 	}
 	
 	/**

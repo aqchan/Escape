@@ -65,9 +65,6 @@ public class SquarePathfindingStrategy extends AbstractPathfinding implements Pa
 		List<Node> neighbors = new LinkedList<Node>();
 		MovementPatternID m = piece.getMovementPatternID();
 
-		if (m == null) {
-			throw new EscapeException("You must input a valid movement type.", new NullPointerException());
-		}
 		switch(m) {
 			case DIAGONAL:
 				diagonalMovement(b, curr, matrix, neighbors, piece);

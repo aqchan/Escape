@@ -13,16 +13,20 @@
 package escape.board;
 
 import java.util.*;
+import escape.*;
 import escape.board.coordinate.*;
 import escape.exception.EscapeException;
 import escape.piece.EscapePiece;
 
 /**
- * Description
+ * Hex Board is a type of Board.
+ * This board has hex coordinates and infinite bounds, represented by xMax and yMax.
+ * All methods required by the Board interface have been implemented.
  * @version Apr 14, 2020
  */
 public class HexBoard extends EscapeBoard
 {
+	private List<GameObserver> observers = new ArrayList<GameObserver>();
 	Map<EscapeCoordinate, LocationType> hexagons;
 	Map<EscapeCoordinate, EscapePiece> pieces;
 
@@ -39,8 +43,31 @@ public class HexBoard extends EscapeBoard
 		this.yMax = yMax;
 		pieces = new HashMap<EscapeCoordinate, EscapePiece>();
 		hexagons = new HashMap<EscapeCoordinate, LocationType>();
+		addObserver(new EscapeGameObserver());
+	}
+	
+	/**
+	 * Adds observer
+	 * @param observer
+	 * @return
+	 */
+	public GameObserver addObserver(GameObserver observer)
+	{
+		observers.add(observer);
+		return observer;
 	}
 
+	/**
+	 * Notify observers
+	 * @param message
+	 */
+	public void notifyObservers(String message)
+	{
+		for (GameObserver observer : observers) {
+			observer.notify(message);
+		}
+	}
+	
 	/*
 	 * @see escape.board.Board#getPieceAt(escape.board.coordinate.Coordinate)
 	 */
@@ -116,9 +143,11 @@ public class HexBoard extends EscapeBoard
 				return true;
 			}
 		}
-		throw new EscapeException("At least one of the given coordinates are outside the boundaries of the board.");
+		notifyObservers("At least one of the given coordinates are outside the boundaries of the board.");
+		return false;
 	}
 
+	
 	/**
 	 * Determines if a piece can be placed on a particular coordinate
 	 * @param coord a EscapeCoordinate
@@ -127,6 +156,7 @@ public class HexBoard extends EscapeBoard
 	public boolean isValidLocation(EscapeCoordinate coord)
 	{
 		if (hexagons.get(coord) == LocationType.BLOCK) {
+			notifyObservers("The given coordinate is not a valid location type.");
 			throw new EscapeException("The given coordinate is not a valid location type.");
 		} 
 		return true;
@@ -140,6 +170,7 @@ public class HexBoard extends EscapeBoard
 	 */
 	public boolean isValidCapture(EscapePiece p, EscapeCoordinate coord) {
 		if (p.getPlayer() == pieces.get(coord).getPlayer()) {
+			notifyObservers("The piece cannot land on a piece of the same player type.");
 			throw new EscapeException("The piece cannot land on a piece of the same player type.");
 		}
 		return true;

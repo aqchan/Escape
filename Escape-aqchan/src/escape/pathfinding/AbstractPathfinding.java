@@ -13,6 +13,7 @@
 package escape.pathfinding;
 
 import java.util.*;
+import escape.*;
 import escape.board.*;
 import escape.board.coordinate.*;
 import escape.piece.*;
@@ -24,7 +25,6 @@ import escape.util.PieceTypeInitializer.PieceAttribute;
  */
 public abstract class AbstractPathfinding
 {
-
 	/**
 	 * Determines if the given node is valid to add to the neighbors list
 	 * @param matrix a 2D array

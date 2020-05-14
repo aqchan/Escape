@@ -31,7 +31,6 @@ public class EscapeGameBuilder
 {
 	private EscapeGameInitializer gameInitializer;
 
-
 	/**
 	 * The constructor takes a file that points to the Escape game
 	 * configuration file. It should get the necessary information 
@@ -120,17 +119,4 @@ public class EscapeGameBuilder
 			}
 		}
 	}
-
-
-	/**
-	 * Initializes the rules
-	 * @param e the game initializer
-	 * @return an array of rules
-	 */
-	public static Rule[] initializeRules(EscapeGameInitializer e)
-	{
-		Rule rules[] = e.getRules();
-		return rules;
-	}
-
 }

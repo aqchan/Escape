@@ -17,7 +17,9 @@ import escape.board.coordinate.EscapeCoordinate;
 import escape.piece.EscapePiece;
 
 /**
- * Description
+ * This class is an abstract class that implements Board.
+ * It allows easier access to fields in the subclasses of Board,
+ * such as piece map, location map, xMax, and yMax
  * @version May 13, 2020
  */
 public abstract class EscapeBoard implements Board<EscapeCoordinate>

@@ -9,7 +9,7 @@
  * 
  * Copyright ©2016-2020 Gary F. Pollice
  *******************************************************************************/
-package escape.master;
+package escape.master.beta;
 
 import static escape.piece.PieceName.*;
 import static org.junit.Assert.assertEquals;

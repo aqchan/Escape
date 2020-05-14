@@ -2,6 +2,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import org.junit.jupiter.api.*;
 import escape.*;
+import escape.piece.*;
 
 /*******************************************************************************
  * This files was developed for CS4233: Object-Oriented Analysis & Design.
@@ -110,5 +111,11 @@ class GammaTests
 		assertTrue(e.move(e.makeCoordinate(2, 3), e.makeCoordinate(1, 3))); // P1 = 7pts, P2 = 4pts
 		assertTrue(e.move(e.makeCoordinate(5, 5), e.makeCoordinate(5, 6))); // filler so that player turn works
 		assertTrue(e.move(e.makeCoordinate(3, 3), e.makeCoordinate(1, 3))); // P1 = 7pts, P2 = 8pts
+	}
+	
+	@Test
+	void testMakePiece() throws Exception
+	{
+		EscapePiece.makePiece(Player.PLAYER1, PieceName.FROG);
 	}
 }

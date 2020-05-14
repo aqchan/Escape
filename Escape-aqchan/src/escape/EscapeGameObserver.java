@@ -13,7 +13,9 @@
 package escape;
 
 /**
- * Description
+ * This class is an instance of a GameObserver.
+ * A client can use this class to get messages from
+ * the game manager by registering an observer.
  * @version May 13, 2020
  */
 public class EscapeGameObserver implements GameObserver

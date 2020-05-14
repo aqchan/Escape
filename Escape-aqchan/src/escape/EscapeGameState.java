@@ -19,7 +19,8 @@ import escape.piece.*;
 import escape.rule.*;
 
 /**
- * Description
+ * This class handles Game Over conditions and rules
+ * pertaining to piece confrontations.
  * @version May 13, 2020
  */
 public class EscapeGameState
@@ -193,6 +194,27 @@ public class EscapeGameState
 	}
 
 	/**
+	 * Increment the turn count by 1 for each time
+	 * either player attempts to make a move
+	 */
+	public void incrementTurn()
+	{
+		turnCount++;
+	}
+	
+	/**
+	 * Gets which player's turn it currently is
+	 * @return
+	 */
+	public Player getPlayerTurn()
+	{
+		if (turnCount % 2 == 0) {
+			return Player.PLAYER1;
+		}
+		return Player.PLAYER2;
+	}
+	
+	/**
 	 * Increments the player's score by the specified point value
 	 * @param player
 	 * @param pointVal the number of points to add
@@ -201,11 +223,11 @@ public class EscapeGameState
 	{
 		scoreMap.put(player, scoreMap.get(player) + pointVal);
 	}
+	
 	/**
 	 * Returns which player won the game based on their score
 	 * @return a String with Player1, Player2, or a tie
 	 */
-	
 	public String getWinner()
 	{
 		if (scoreMap.get(Player.PLAYER1) > scoreMap.get(Player.PLAYER2)) {
@@ -214,18 +236,5 @@ public class EscapeGameState
 			return "Player 2 has won.";
 		}
 		return "the game was a tie.";
-	}
-
-	public void incrementTurn()
-	{
-		turnCount++;
-	}
-	
-	public Player getPlayerTurn()
-	{
-		if (turnCount % 2 == 0) {
-			return Player.PLAYER1;
-		}
-		return Player.PLAYER2;
 	}
 }

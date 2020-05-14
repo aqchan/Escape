@@ -10,7 +10,7 @@
  * Copyright ©2020 Gary F. Pollice
  *******************************************************************************/
 
-package escape.master;
+package escape.master.beta;
 
 import static org.junit.Assert.*;
 import java.util.stream.Stream;

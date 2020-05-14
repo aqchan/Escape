@@ -10,7 +10,7 @@
  * Copyright ©2020 Gary F. Pollice
  *******************************************************************************/
 
-package escape.master;
+package escape.master.beta;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
@@ -23,7 +23,7 @@ import escape.*;
  */
 class AbstractMasterTest
 {
-    static String masterTestLocation = "config/master/";
+    static String masterTestLocation = "config/master-configs-beta/";
     static String fileName;
     EscapeGameManager game;
     

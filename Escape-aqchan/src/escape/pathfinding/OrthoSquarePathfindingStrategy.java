@@ -66,9 +66,6 @@ public class OrthoSquarePathfindingStrategy extends AbstractPathfinding implemen
 		List<Node> neighbors = new LinkedList<Node>();
 		MovementPatternID m = piece.getMovementPatternID();
 
-		if (m == null) {
-			throw new EscapeException("You must input a valid movement type.", new NullPointerException());
-		}
 		switch(m) {
 			case LINEAR:
 				linearMovement(b, curr, matrix, src, dest, neighbors, piece);

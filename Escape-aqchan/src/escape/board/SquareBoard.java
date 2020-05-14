@@ -12,20 +12,21 @@
 package escape.board;
 
 import java.util.*;
+import escape.*;
 import escape.board.coordinate.*;
 import escape.exception.EscapeException;
 import escape.piece.*; 
 
 
 /**
- * An example of how a Board might be implemented. This board has
- * square coordinates and finite bounds, represented by xMax and yMax.
- * All methods required by the Board interface have been implemented. Students
- * would naturally add methods based upon their design.
+ * SquareBoard is a type of Board.
+ * This board has square coordinates and finite bounds, represented by xMax and yMax.
+ * All methods required by the Board interface have been implemented.
  * @version Apr 2, 2020
  */
 public class SquareBoard extends EscapeBoard
 {
+	private List<GameObserver> observers = new ArrayList<GameObserver>();
 	Map<EscapeCoordinate, EscapePiece> pieces;
 	Map<EscapeCoordinate, LocationType> squares;
 
@@ -42,9 +43,31 @@ public class SquareBoard extends EscapeBoard
 		this.yMax = yMax;
 		pieces = new HashMap<EscapeCoordinate, EscapePiece>();
 		squares = new HashMap<EscapeCoordinate, LocationType>();
+		addObserver(new EscapeGameObserver());
 	}
 
+	/**
+	 * Adds observer
+	 * @param observer
+	 * @return
+	 */
+	public GameObserver addObserver(GameObserver observer)
+	{
+		observers.add(observer);
+		return observer;
+	}
 
+	/**
+	 * Notify observers
+	 * @param message
+	 */
+	public void notifyObservers(String message)
+	{
+		for (GameObserver observer : observers) {
+			observer.notify(message);
+		}
+	}
+	
 	/*
 	 * @see escape.board.Board#getPieceAt(escape.board.coordinate.Coordinate)
 	 */
@@ -105,6 +128,7 @@ public class SquareBoard extends EscapeBoard
 	public boolean isValidCoords(EscapeCoordinate coord)
 	{
 		if (coord.getX() > xMax || coord.getY() > yMax || coord.getX() < 1 || coord.getY() < 1) {
+			notifyObservers("At least one of the given coordinates are outside the boundaries of the board.");
 			throw new EscapeException("At least one of the given coordinates are outside the boundaries of the board.");
 		} 
 		return true;
@@ -118,6 +142,7 @@ public class SquareBoard extends EscapeBoard
 	public boolean isValidLocation(EscapeCoordinate coord)
 	{
 		if (squares.get(coord) == LocationType.BLOCK) {
+			notifyObservers("The given coordinate is not a valid location type.");
 			throw new EscapeException("The given coordinate is not a valid location type.");
 		} 
 		return true;
@@ -133,6 +158,7 @@ public class SquareBoard extends EscapeBoard
 	public boolean isValidCapture(EscapePiece p, EscapeCoordinate coord) {
 		// check if the player type is the same
 		if (p.getPlayer() == pieces.get(coord).getPlayer()) {
+			notifyObservers("The piece cannot land on a piece of the same player type.");
 			throw new EscapeException("The piece cannot land on a piece of the same player type.");
 		}
 		return true;
