@@ -20,31 +20,31 @@ import java.util.Objects;
  */
 public class HexCoordinate extends EscapeCoordinate
 {
-	 private final int x;
-	 private final int y;
-	 
-	 /**
-	  * HexCoordinate
-	  * @param x the x-coordinate
-	  * @param y the y-coordinate
-	  */ 
-	 private HexCoordinate(int x, int y)
-	 {
-		 this.x = x;
-		 this.y = y;
-	 }
-	    
-	 /**
-	  * Static factory method that creates a coordinate
-	  * @param x the x-coordinate
-	  * @param y the y-coordinate
-	  * @return a HexCoordinate
-	  */
-	 public static HexCoordinate makeCoordinate(int x, int y)
-	 {
-		 return new HexCoordinate(x, y);
-	 }
-	 
+	private final int x;
+	private final int y;
+
+	/**
+	 * HexCoordinate
+	 * @param x the x-coordinate
+	 * @param y the y-coordinate
+	 */ 
+	private HexCoordinate(int x, int y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+
+	/**
+	 * Static factory method that creates a coordinate
+	 * @param x the x-coordinate
+	 * @param y the y-coordinate
+	 * @return a HexCoordinate
+	 */
+	public static HexCoordinate makeCoordinate(int x, int y)
+	{
+		return new HexCoordinate(x, y);
+	}
+
 	/*
 	 * @see escape.board.coordinate.Coordinate#distanceTo(escape.board.coordinate.Coordinate)
 	 */
@@ -58,7 +58,7 @@ public class HexCoordinate extends EscapeCoordinate
 		int zVal = Math.abs((-this.x + -this.y) - (-((HexCoordinate) c).getX() + (-((HexCoordinate) c).getY())));
 		return Math.max(Math.max(xVal, yVal), zVal);
 	}
-	
+
 	/*
 	 * @see escape.board.coordinate.EscapeCoordinate#getX()
 	 */

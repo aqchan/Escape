@@ -25,9 +25,9 @@ public class OrthoSquareBoard extends EscapeBoard
 {
 	Map<EscapeCoordinate, LocationType> orthoSquares;
 	Map<EscapeCoordinate, EscapePiece> pieces;
-	
+
 	private final int xMax, yMax;
-	
+
 	/**
 	 * OrthoSquare Board
 	 * @param xMax the maximum x-dimension of board
@@ -40,7 +40,7 @@ public class OrthoSquareBoard extends EscapeBoard
 		pieces = new HashMap<EscapeCoordinate, EscapePiece>();
 		orthoSquares = new HashMap<EscapeCoordinate, LocationType>();
 	}
-	
+
 	/*
 	 * @see escape.board.Board#getPieceAt(escape.board.coordinate.Coordinate)
 	 */
@@ -63,7 +63,7 @@ public class OrthoSquareBoard extends EscapeBoard
 				if (isValidCoords(coord) && isValidLocation(coord)) {
 					pieces.put(coord, p);
 				}
-										
+
 				// remove the piece from the EXIT location after putting it down
 				if (orthoSquares.get(coord) == LocationType.EXIT) {
 					pieces.remove(coord, p);
@@ -75,14 +75,14 @@ public class OrthoSquareBoard extends EscapeBoard
 			if (isValidCoords(coord) && isValidLocation(coord)) {
 				pieces.put(coord, p);
 			}
-					
+
 			// remove the piece from the EXIT location after putting it down
 			if (orthoSquares.get(coord) == LocationType.EXIT) {
 				pieces.remove(coord, p);
 			}
 		}
 	}
-	
+
 	/**
 	 * Removes piece at specified coordinate
 	 * @param p an EscapePiece
@@ -92,7 +92,7 @@ public class OrthoSquareBoard extends EscapeBoard
 	{
 		pieces.remove(coord, p);
 	}
-	
+
 	/**
 	 * Determines if coordinates are within the constraints of the board
 	 * @param coord an EscapeCoordinate
@@ -105,7 +105,7 @@ public class OrthoSquareBoard extends EscapeBoard
 		} 
 		return true;
 	}
-	
+
 	/**
 	 * Determines if a piece can be placed on a particular coordinate
 	 * @param coord an EscapeCoordinate
@@ -118,7 +118,7 @@ public class OrthoSquareBoard extends EscapeBoard
 		} 
 		return true;
 	}
-	
+
 	/**
 	 * Determines if a piece can be placed onto another piece to capture it
 	 * @param p an EscapePiece
@@ -132,7 +132,7 @@ public class OrthoSquareBoard extends EscapeBoard
 		}
 		return true;
 	}
-	
+
 	/*
 	 * 
 	 * @see escape.board.Board#setLocationType(escape.board.coordinate.Coordinate, escape.board.LocationType)
@@ -149,7 +149,7 @@ public class OrthoSquareBoard extends EscapeBoard
 	{
 		return pieces;
 	}
-	
+
 	/**
 	 * @return a location map
 	 */
@@ -157,7 +157,7 @@ public class OrthoSquareBoard extends EscapeBoard
 	{
 		return orthoSquares;
 	}
-	
+
 	/**
 	 * @return xMax
 	 */
@@ -165,7 +165,7 @@ public class OrthoSquareBoard extends EscapeBoard
 	{
 		return xMax;
 	}
-	
+
 	/**
 	 * @return yMax
 	 */
@@ -173,6 +173,6 @@ public class OrthoSquareBoard extends EscapeBoard
 	{
 		return yMax;
 	}
-	
-	
+
+
 }

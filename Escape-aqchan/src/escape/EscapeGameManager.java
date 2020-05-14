@@ -23,6 +23,7 @@ import escape.piece.EscapePiece;
  */
 public interface EscapeGameManager<C extends Coordinate>
 {
+	
 	/**
 	 * Make the move in the current game.
 	 * @param from starting location
@@ -30,7 +31,7 @@ public interface EscapeGameManager<C extends Coordinate>
 	 * @return true if the move was legal, false otherwise
 	 */
 	boolean move(C from, C to);
-	
+
 	/**
 	 * Return the piece located at the specified coordinate. If executing
 	 * this method in the game instance causes an exception, then this method
@@ -39,7 +40,7 @@ public interface EscapeGameManager<C extends Coordinate>
 	 * @return the piece at the specified location or null if there is none
 	 */
 	EscapePiece getPieceAt(C coordinate);
-	
+
 	/**
 	 * Returns a coordinate of the appropriate type. If the coordinate cannot be
 	 * created, then null is returned and the status message is set appropriately.
@@ -48,7 +49,7 @@ public interface EscapeGameManager<C extends Coordinate>
 	 * @return the coordinate or null if the coordinate cannot be 
 	 */
 	C makeCoordinate(int x, int y);
-	
+
 	/**
 	 * Add an observer to this manager. Whenever the move() method returns
 	 * false, the observer will be notified with a message indication the
@@ -58,9 +59,9 @@ public interface EscapeGameManager<C extends Coordinate>
 	 */
 	default GameObserver addObserver(GameObserver observer)
 	{
-	    throw new EscapeException("Not implemented");
+		throw new EscapeException("Not implemented");
 	}
-	
+
 	/**
 	 * Remove an observer from this manager. The observer will no longer
 	 * receive notifications from this game manager.
@@ -70,6 +71,6 @@ public interface EscapeGameManager<C extends Coordinate>
 	 */
 	default GameObserver removeObserver(GameObserver observer)
 	{
-	    throw new EscapeException("Not implemented");
+		throw new EscapeException("Not implemented");
 	}
 }

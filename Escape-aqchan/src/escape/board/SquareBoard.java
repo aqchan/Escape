@@ -28,9 +28,9 @@ public class SquareBoard extends EscapeBoard
 {
 	Map<EscapeCoordinate, EscapePiece> pieces;
 	Map<EscapeCoordinate, LocationType> squares;
-	
+
 	private final int xMax, yMax;
-	
+
 	/**
 	 * Square Board
 	 * @param xMax the maximum x-dimension of board
@@ -43,8 +43,8 @@ public class SquareBoard extends EscapeBoard
 		pieces = new HashMap<EscapeCoordinate, EscapePiece>();
 		squares = new HashMap<EscapeCoordinate, LocationType>();
 	}
-	
-	
+
+
 	/*
 	 * @see escape.board.Board#getPieceAt(escape.board.coordinate.Coordinate)
 	 */
@@ -67,7 +67,7 @@ public class SquareBoard extends EscapeBoard
 				if (isValidCoords(coord) && isValidLocation(coord)) {
 					pieces.put(coord, p);
 				}
-										
+
 				// remove the piece from the EXIT location after putting it down
 				if (squares.get(coord) == LocationType.EXIT) {
 					pieces.remove(coord, p);
@@ -79,14 +79,14 @@ public class SquareBoard extends EscapeBoard
 			if (isValidCoords(coord) && isValidLocation(coord)) {
 				pieces.put(coord, p);
 			}
-			
+
 			// remove the piece from the EXIT location after putting it down
 			if (squares.get(coord) == LocationType.EXIT) {
 				pieces.remove(coord, p);
 			}
 		}
 	}
-	
+
 	/**
 	 * Removes piece at specified coordinate
 	 * @param p an EscapePiece
@@ -96,7 +96,7 @@ public class SquareBoard extends EscapeBoard
 	{
 		pieces.remove(coord, p);
 	}
-	
+
 	/**
 	 * Determines if coordinates are within the constraints of the board
 	 * @param coord a SquareCoordinate
@@ -109,7 +109,7 @@ public class SquareBoard extends EscapeBoard
 		} 
 		return true;
 	}
-	
+
 	/**
 	 * Determines if a piece can be placed on a particular coordinate
 	 * @param coord a SquareCoordinate
@@ -122,8 +122,8 @@ public class SquareBoard extends EscapeBoard
 		} 
 		return true;
 	}
-	
-	
+
+
 	/**
 	 * Determines if a piece can be placed onto another piece to capture it
 	 * @param p an EscapePiece
@@ -137,7 +137,7 @@ public class SquareBoard extends EscapeBoard
 		}
 		return true;
 	}
-	
+
 	/*
 	 * @see escape.board.Board#setLocationType(escape.board.coordinate.Coordinate, escape.board.LocationType)
 	 */
@@ -145,7 +145,7 @@ public class SquareBoard extends EscapeBoard
 	{
 		squares.put((EscapeCoordinate) c, lt);
 	}
-	
+
 	/**
 	 * @return a piece map
 	 */
@@ -153,7 +153,7 @@ public class SquareBoard extends EscapeBoard
 	{
 		return pieces;
 	}
-	
+
 	/**
 	 * @return a location map
 	 */
@@ -161,14 +161,14 @@ public class SquareBoard extends EscapeBoard
 	{
 		return squares;
 	}
-	
+
 	/**
 	 * @return maximum x-dimension of board
 	 */
 	public int getxMax() {
 		return xMax;
 	}
-	
+
 	/**
 	 * @return maximum y-dimension of board
 	 */

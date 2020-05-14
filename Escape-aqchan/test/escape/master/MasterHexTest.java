@@ -82,7 +82,7 @@ class MasterHexTest extends AbstractMasterTest
             // UNBLOCK
             Arguments.of(2, 3, 8, 3, FOX, "unblock"),
             // Land on opponent
-            Arguments.of(2, 3, -1, 6, FOX, "land on opponent")
+            Arguments.of(2, 3, -2, 6, FOX, "land on opponent")
         );
     }
     

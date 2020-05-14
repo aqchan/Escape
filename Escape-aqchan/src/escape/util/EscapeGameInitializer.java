@@ -12,6 +12,7 @@
 
 package escape.util;
 
+import java.util.Arrays;
 import javax.xml.bind.annotation.XmlRootElement;
 import escape.board.coordinate.CoordinateID;
 import escape.rule.Rule;
@@ -25,37 +26,37 @@ import escape.rule.Rule;
 public class EscapeGameInitializer
 {
 	private CoordinateID coordinateType;
-	
+
 	// Board items
 	private int xMax, yMax;
 	private LocationInitializer[] locationInitializers;
-	
+
 	// Piece items
 	private PieceTypeInitializer[] pieceTypes; 	// At least one
-	
+
 	// Rules
 	private Rule[] rules;
-    
-    public EscapeGameInitializer()
-    {
-        // Needed for JAXB
-    }
 
-    /**
-     * @return the coordinateType
-     */
-    public CoordinateID getCoordinateType()
-    {
-        return coordinateType;
-    }
+	public EscapeGameInitializer()
+	{
+		// Needed for JAXB
+	}
 
-    /**
-     * @param coordinateType the coordinateType to set
-     */
-    public void setCoordinateType(CoordinateID coordinateType)
-    {
-        this.coordinateType = coordinateType;
-    }
+	/**
+	 * @return the coordinateType
+	 */
+	public CoordinateID getCoordinateType()
+	{
+		return coordinateType;
+	}
+
+	/**
+	 * @param coordinateType the coordinateType to set
+	 */
+	public void setCoordinateType(CoordinateID coordinateType)
+	{
+		this.coordinateType = coordinateType;
+	}
 
 	/**
 	 * @return the xMax
@@ -128,7 +129,7 @@ public class EscapeGameInitializer
 	{
 		return rules;
 	}
-	
+
 	/**
 	 * @param the rules to set
 	 */
@@ -136,18 +137,18 @@ public class EscapeGameInitializer
 	{
 		this.rules = rules;
 	}
-	
-	
-//	/*
-//	 * @see java.lang.Object#toString()
-//	 */
-//	@Override
-//	public String toString()
-//	{
-//		return "EscapeGameInitializer [xMax=" + xMax + ", yMax=" + yMax
-//		    + ", coordinateType=" + coordinateType + ", locationInitializers="
-//		    + Arrays.toString(locationInitializers) + ", types="
-//		    + Arrays.toString(pieceTypes) + "]";
-//	}
-	
+
+
+	/*
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString()
+	{
+		return "EscapeGameInitializer [xMax=" + xMax + ", yMax=" + yMax
+				+ ", coordinateType=" + coordinateType + ", locationInitializers="
+				+ Arrays.toString(locationInitializers) + ", types="
+				+ Arrays.toString(pieceTypes) + "]";
+	}
+
 }

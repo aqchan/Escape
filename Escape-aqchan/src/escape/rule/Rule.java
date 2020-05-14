@@ -12,7 +12,6 @@
 
 package escape.rule;
 
-import escape.util.EscapeGameInitializer;
 
 /**
  * Rule class
@@ -22,37 +21,10 @@ public class Rule
 {
 	RuleID id;
 	int intValue;
-	private EscapeGameInitializer gameInitializer;
 	
-	public Rule(EscapeGameInitializer e) {
-		this.gameInitializer = e;
-	}
-	
-	
-//	public Rule[] getGameRules() {
-//		return gameInitializer.getRules();
-//	}
-//	
-	
-	// turn_limit
-	
-	
-	// score
-	
-	
-	// remove
-	
-	
-	// point_conflict
-	
-	
-	
-	
-	
-	
+	public Rule() {}	
 	public RuleID getId() { return id; }
 	public void setId(RuleID id) { this.id = id; }
 	public int getIntValue() { return intValue; }
-	public void
-	setIntValue(int intValue) { this.intValue = intValue; }
+	public void setIntValue(int intValue) { this.intValue = intValue; }
 }

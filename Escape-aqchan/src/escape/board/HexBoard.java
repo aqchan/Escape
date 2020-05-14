@@ -25,9 +25,9 @@ public class HexBoard extends EscapeBoard
 {
 	Map<EscapeCoordinate, LocationType> hexagons;
 	Map<EscapeCoordinate, EscapePiece> pieces;
-	
+
 	private final int xMax, yMax;
-	
+
 	/**
 	 * Hex Board
 	 * @param xMax the maximum x-dimension of board
@@ -40,7 +40,7 @@ public class HexBoard extends EscapeBoard
 		pieces = new HashMap<EscapeCoordinate, EscapePiece>();
 		hexagons = new HashMap<EscapeCoordinate, LocationType>();
 	}
-	
+
 	/*
 	 * @see escape.board.Board#getPieceAt(escape.board.coordinate.Coordinate)
 	 */
@@ -63,7 +63,7 @@ public class HexBoard extends EscapeBoard
 				if (isValidCoords(coord) && isValidLocation(coord)) {
 					pieces.put(coord, p);
 				}
-								
+
 				// remove the piece from the EXIT location after putting it down
 				if (hexagons.get(coord) == LocationType.EXIT) {
 					pieces.remove(coord, p);
@@ -75,14 +75,14 @@ public class HexBoard extends EscapeBoard
 			if (isValidCoords(coord) && isValidLocation(coord)) {
 				pieces.put(coord, p);
 			}
-			
+
 			// remove the piece from the EXIT location after putting it down
 			if (hexagons.get(coord) == LocationType.EXIT) {
 				pieces.remove(coord, p);
 			}
 		}
 	}
-	
+
 	/**
 	 * Removes piece at specified coordinate
 	 * @param p an EscapePiece
@@ -92,7 +92,7 @@ public class HexBoard extends EscapeBoard
 	{
 		pieces.remove(coord, p);
 	}
-	
+
 	/**
 	 * Determines if coordinates are within the constraints of the board
 	 * @param coord a EscapeCoordinate
@@ -118,7 +118,7 @@ public class HexBoard extends EscapeBoard
 		}
 		throw new EscapeException("At least one of the given coordinates are outside the boundaries of the board.");
 	}
-	
+
 	/**
 	 * Determines if a piece can be placed on a particular coordinate
 	 * @param coord a EscapeCoordinate
@@ -131,7 +131,7 @@ public class HexBoard extends EscapeBoard
 		} 
 		return true;
 	}
-	
+
 	/**
 	 * Determines if a piece can be placed onto another piece to capture it
 	 * @param p an EscapePiece
@@ -144,7 +144,7 @@ public class HexBoard extends EscapeBoard
 		}
 		return true;
 	}
-	
+
 	/*
 	 * 
 	 * @see escape.board.Board#setLocationType(escape.board.coordinate.Coordinate, escape.board.LocationType)
@@ -161,7 +161,7 @@ public class HexBoard extends EscapeBoard
 	{
 		return pieces;
 	}
-	
+
 	/**
 	 * @return the location map of hexes
 	 */
@@ -169,14 +169,14 @@ public class HexBoard extends EscapeBoard
 	{
 		return hexagons;
 	}
-	
+
 	/**
 	 * @return xMax
 	 */
 	public int getxMax() {
 		return xMax;
 	}
-	
+
 	/**
 	 * @return yMax
 	 */

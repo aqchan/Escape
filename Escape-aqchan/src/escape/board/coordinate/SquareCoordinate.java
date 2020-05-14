@@ -23,32 +23,32 @@ import escape.piece.EscapePiece;
  */
 public class SquareCoordinate extends EscapeCoordinate
 {
-    private final int x;
-    private final int y;
-    
-    /**
-	  * SquareCoordinate
-	  * @param x the x-coordinate
-	  * @param y the y-coordinate
-	  */
-    private SquareCoordinate(int x, int y)
-    {
-    	this.x = x;
-    	this.y = y;
-    }
-    
-    /**
-	  * Static factory method that creates a coordinate
-	  * @param x the x-coordinate
-	  * @param y the y-coordinate
-	  * @return a SquareCoordinate
-	  */
-    public static SquareCoordinate makeCoordinate(int x, int y)
-    {
-    	return new SquareCoordinate(x, y);
-    }
-    
-    /*
+	private final int x;
+	private final int y;
+
+	/**
+	 * SquareCoordinate
+	 * @param x the x-coordinate
+	 * @param y the y-coordinate
+	 */
+	private SquareCoordinate(int x, int y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+
+	/**
+	 * Static factory method that creates a coordinate
+	 * @param x the x-coordinate
+	 * @param y the y-coordinate
+	 * @return a SquareCoordinate
+	 */
+	public static SquareCoordinate makeCoordinate(int x, int y)
+	{
+		return new SquareCoordinate(x, y);
+	}
+
+	/*
 	 * @see escape.board.coordinate.Coordinate#distanceTo(escape.board.coordinate.Coordinate)
 	 */
 	@Override

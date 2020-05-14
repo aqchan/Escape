@@ -21,31 +21,31 @@ import java.util.Objects;
 public class OrthoSquareCoordinate extends EscapeCoordinate
 {
 	private final int x;
-    private final int y;
-    
-    /**
-	  * OrthoSquareCoordinate
-	  * @param x the x-coordinate
-	  * @param y the y-coordinate
-	  */ 
-    private OrthoSquareCoordinate(int x, int y)
-    {
-    	this.x = x;
-    	this.y = y;
-    }
-    
-    /**
-	  * Static factory method that creates a coordinate
-	  * @param x the x-coordinate
-	  * @param y the y-coordinate
-	  * @return an OrthoSquareCoordinate
-	  */
-    public static OrthoSquareCoordinate makeCoordinate(int x, int y)
-    {
-    	return new OrthoSquareCoordinate(x, y);
-    }
-    
-    
+	private final int y;
+
+	/**
+	 * OrthoSquareCoordinate
+	 * @param x the x-coordinate
+	 * @param y the y-coordinate
+	 */ 
+	private OrthoSquareCoordinate(int x, int y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+
+	/**
+	 * Static factory method that creates a coordinate
+	 * @param x the x-coordinate
+	 * @param y the y-coordinate
+	 * @return an OrthoSquareCoordinate
+	 */
+	public static OrthoSquareCoordinate makeCoordinate(int x, int y)
+	{
+		return new OrthoSquareCoordinate(x, y);
+	}
+
+
 	/*
 	 * @see escape.board.coordinate.Coordinate#distanceTo(escape.board.coordinate.Coordinate)
 	 */
@@ -56,7 +56,7 @@ public class OrthoSquareCoordinate extends EscapeCoordinate
 		int yVal = Math.abs(((OrthoSquareCoordinate) c).getY() - this.y);
 		return xVal + yVal;
 	}
-	
+
 	/*
 	 * @see escape.board.coordinate.EscapeCoordinate#getX()
 	 */
@@ -97,5 +97,5 @@ public class OrthoSquareCoordinate extends EscapeCoordinate
 		OrthoSquareCoordinate other = (OrthoSquareCoordinate) obj;
 		return x == other.x && y == other.y;
 	}
-	
+
 }

@@ -21,21 +21,21 @@ import escape.piece.EscapePiece;
  */
 public interface Board<C extends Coordinate>
 {
-	
-    /**
-     * Get the piece at the specified coordinate
-     * @param coord the coordinate to inspect
-     * @return the piece or null if there is none
-     */
-    EscapePiece getPieceAt(C coord);
-    
-    /**
-     * Place a piece on the board at a specified location.
-     * @param the piece to place. NOTE: if this is null, then if there
-     * were a piece at the coordinate, it will be removed.
-     * @param coord the coordinate where the piece must be placed
-     */
-    void putPieceAt(EscapePiece p, C coord);
+
+	/**
+	 * Get the piece at the specified coordinate
+	 * @param coord the coordinate to inspect
+	 * @return the piece or null if there is none
+	 */
+	EscapePiece getPieceAt(C coord);
+
+	/**
+	 * Place a piece on the board at a specified location.
+	 * @param the piece to place. NOTE: if this is null, then if there
+	 * were a piece at the coordinate, it will be removed.
+	 * @param coord the coordinate where the piece must be placed
+	 */
+	void putPieceAt(EscapePiece p, C coord);
 
 	/**
 	 * Sets the location type
@@ -43,12 +43,12 @@ public interface Board<C extends Coordinate>
 	 * @param locationType the type of location (clear, blocked, exit)
 	 */
 	void setLocationType(Coordinate c, LocationType locationType);
-	
+
 	/**
 	 * Removes piece at specified coordinate
 	 * @param p an EscapePiece
 	 * @param coord the coordinate to remove the piece at
 	 */
 	void removePieceAt(EscapePiece p, EscapeCoordinate coord);
-    
+
 }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<escapeGameInitializer>
+	<coordinateType>SQUARE</coordinateType>
+	<!-- Game rules -->
+	<rules>
+		<id>SCORE</id>
+		<intValue>1</intValue>
+	</rules>
+	<!-- Board items -->
+	<xMax>5</xMax>
+	<yMax>6</yMax>
+	<locationInitializers>
+		<x>1</x>
+		<y>1</y>
+		<player>PLAYER1</player>
+		<pieceName>HORSE</pieceName>
+	</locationInitializers>
+	<locationInitializers>
+		<x>1</x>
+		<y>2</y>
+		<player>PLAYER2</player>
+		<pieceName>HORSE</pieceName>
+	</locationInitializers>
+	<!-- Piece items, an array of pieceTypes, 1 or more -->
+	<pieceTypes>
+		<pieceName>HORSE</pieceName>
+		<movementPattern>OMNI</movementPattern>
+		<attributes>
+			<id>DISTANCE</id>
+			<attrType>INTEGER</attrType>
+			<intValue>10</intValue>
+		</attributes>
+	</pieceTypes>
+</escapeGameInitializer>

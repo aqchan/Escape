@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<escapeGameInitializer>
+	<coordinateType>HEX</coordinateType>
+	<!-- Game rules -->
+	<rules>
+		<id>REMOVE</id>
+		<intValue>1</intValue>
+	</rules>
+	
+    <!-- Board items -->
+    <locationInitializers> <!-- Test piece 1 -->
+        <x>0</x>
+        <y>-2</y>
+        <locationType>CLEAR</locationType>
+        <player>PLAYER1</player>
+        <pieceName>HORSE</pieceName>
+    </locationInitializers>
+    <locationInitializers> <!-- Test piece 2 -->
+        <x>-2</x>
+        <y>2</y>
+        <locationType>CLEAR</locationType>
+        <player>PLAYER1</player>
+        <pieceName>HORSE</pieceName>
+    </locationInitializers>
+
+    <!-- Piece items, an array of pieceTypes, 1 or more -->
+    <pieceTypes>
+        <movementPattern>LINEAR</movementPattern>
+        <pieceName>HORSE</pieceName>
+        <attributes>
+            <id>DISTANCE</id>
+            <attrType>INTEGER</attrType>
+            <intValue>5</intValue>
+        </attributes>
+    </pieceTypes>
+</escapeGameInitializer>

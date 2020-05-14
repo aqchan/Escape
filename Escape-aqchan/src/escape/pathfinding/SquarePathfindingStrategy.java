@@ -33,11 +33,11 @@ public class SquarePathfindingStrategy extends AbstractPathfinding implements Pa
 	 */
 	public int pathExists(EscapeBoard board, EscapeCoordinate src, EscapeCoordinate dest, EscapePiece piece) {
 		char[][] matrix = EscapeBoard.createGraph(board, src, dest);
-		
+
 		Node source = new Node(src.getX(), src.getY(), 0);
 		Queue<Node> queue = new LinkedList<Node>();
 		queue.add(source);
-		
+
 		while(!queue.isEmpty()) {
 			Node curr = queue.poll();
 			if (matrix[curr.x][curr.y] == 'X' ) {
@@ -64,7 +64,7 @@ public class SquarePathfindingStrategy extends AbstractPathfinding implements Pa
 	private static List<Node> addNeighbors(Board b, Node curr, char[][] matrix, EscapeCoordinate src, EscapeCoordinate dest, EscapePiece piece) {
 		List<Node> neighbors = new LinkedList<Node>();
 		MovementPatternID m = piece.getMovementPatternID();
-		
+
 		if (m == null) {
 			throw new EscapeException("You must input a valid movement type.", new NullPointerException());
 		}
@@ -85,45 +85,45 @@ public class SquarePathfindingStrategy extends AbstractPathfinding implements Pa
 		return neighbors;
 	}
 
-    
-    /**
-     * Only gets diagonal neighbors
-     * @param curr the current node
-     * @param matrix a 2D array
-     * @param neighbors list of node's neighbors
-     * @param piece an EscapePiece
-     */
-    public static void diagonalMovement(Board b, Node curr, char[][] matrix, List<Node> neighbors, EscapePiece piece) {
-    	 // diagonally up and right
-    	if (isValidNode(b, matrix, curr, curr.x + 1, curr.y + 1, piece, neighbors)) {
-            neighbors.add(new Node(curr.x + 1, curr.y + 1, curr.distance + 1));
-        }
-        // diagonally down and left
-        if (isValidNode(b, matrix, curr, curr.x - 1, curr.y - 1, piece, neighbors)) {
-            neighbors.add(new Node(curr.x - 1, curr.y - 1, curr.distance + 1));
-        }
-        // diagonally up and left
-        if (isValidNode(b, matrix, curr, curr.x + 1, curr.y - 1, piece, neighbors)) {
-            neighbors.add(new Node(curr.x + 1, curr.y - 1, curr.distance + 1));
-        }
-        // diagonally down and right
-        if (isValidNode(b, matrix, curr, curr.x - 1, curr.y + 1, piece, neighbors)) {
-            neighbors.add(new Node(curr.x - 1, curr.y + 1, curr.distance + 1));
-        }
-    }
-    
-    
-    /**
-     * Only gets linear neighbors
-     * @param curr the current node
-     * @param matrix a 2D array
-     * @param src the starting location
-     * @param dest the ending location
-     * @param neighbors list of node's neighbors
-     * @param piece an EscapePiece
-     */
-    public static void linearMovement(Board b, Node curr, char[][] matrix, EscapeCoordinate src, EscapeCoordinate dest, List<Node> neighbors, EscapePiece piece) {
-    	boolean vertical = src.getX() == dest.getX();
+
+	/**
+	 * Only gets diagonal neighbors
+	 * @param curr the current node
+	 * @param matrix a 2D array
+	 * @param neighbors list of node's neighbors
+	 * @param piece an EscapePiece
+	 */
+	public static void diagonalMovement(Board b, Node curr, char[][] matrix, List<Node> neighbors, EscapePiece piece) {
+		// diagonally up and right
+		if (isValidNode(b, matrix, curr, curr.x + 1, curr.y + 1, piece, neighbors)) {
+			neighbors.add(new Node(curr.x + 1, curr.y + 1, curr.distance + 1));
+		}
+		// diagonally down and left
+		if (isValidNode(b, matrix, curr, curr.x - 1, curr.y - 1, piece, neighbors)) {
+			neighbors.add(new Node(curr.x - 1, curr.y - 1, curr.distance + 1));
+		}
+		// diagonally up and left
+		if (isValidNode(b, matrix, curr, curr.x + 1, curr.y - 1, piece, neighbors)) {
+			neighbors.add(new Node(curr.x + 1, curr.y - 1, curr.distance + 1));
+		}
+		// diagonally down and right
+		if (isValidNode(b, matrix, curr, curr.x - 1, curr.y + 1, piece, neighbors)) {
+			neighbors.add(new Node(curr.x - 1, curr.y + 1, curr.distance + 1));
+		}
+	}
+
+
+	/**
+	 * Only gets linear neighbors
+	 * @param curr the current node
+	 * @param matrix a 2D array
+	 * @param src the starting location
+	 * @param dest the ending location
+	 * @param neighbors list of node's neighbors
+	 * @param piece an EscapePiece
+	 */
+	public static void linearMovement(Board b, Node curr, char[][] matrix, EscapeCoordinate src, EscapeCoordinate dest, List<Node> neighbors, EscapePiece piece) {
+		boolean vertical = src.getX() == dest.getX();
 		boolean horizonal = src.getY() == dest.getY();
 		boolean negativeDiagonal = src.getX() - dest.getX() == src.getY() - dest.getY();
 		boolean positiveDiagonal = src.getX() - dest.getX() == (src.getY() - dest.getY()) * -1; // (5,1)->(3,3) and (1,5) ->(3,3)
@@ -160,50 +160,50 @@ public class SquarePathfindingStrategy extends AbstractPathfinding implements Pa
 		if (positiveDiagonal && isValidNode(b, matrix, curr, curr.x - 1, curr.y + 1, piece, neighbors)) {
 			neighbors.add(new Node(curr.x - 1, curr.y + 1, curr.distance + 1));
 		}
-    }
-    
+	}
 
-    /**
-     * Only gets omni neighbors
-     * @param curr the current node
-     * @param matrix a 2D array
-     * @param neighbors list of node's neighbors
-     * @param piece an EscapePiece
-     */
-    public static void omniMovement(Board b, Node curr, char[][] matrix, List<Node> neighbors, EscapePiece piece) {
-    	// up (on matrix)
-    	if (isValidNode(b, matrix, curr, curr.x - 1, curr.y, piece, neighbors)) {
-    		neighbors.add(new Node(curr.x - 1, curr.y, curr.distance + 1));
-    	}
-    	// down
-    	if (isValidNode(b, matrix, curr, curr.x + 1, curr.y, piece, neighbors)) {
-    		neighbors.add(new Node(curr.x + 1, curr.y, curr.distance + 1));
-    	}
-    	// left
-    	if (isValidNode(b, matrix, curr, curr.x, curr.y - 1, piece, neighbors)) {
-    		neighbors.add(new Node(curr.x, curr.y - 1, curr.distance + 1));
-    	}
-    	// right
-    	if (isValidNode(b, matrix, curr, curr.x, curr.y + 1, piece, neighbors)) {
-    		neighbors.add(new Node(curr.x, curr.y + 1, curr.distance + 1));
-    	}
-    	// diagonally down and right
-    	if (isValidNode(b, matrix, curr, curr.x + 1, curr.y + 1, piece, neighbors)) {
-    		neighbors.add(new Node(curr.x + 1, curr.y + 1, curr.distance + 1));
-    	}
-    	// diagonally up and left
-    	if (isValidNode(b, matrix, curr, curr.x - 1, curr.y - 1, piece, neighbors)) {
-    		neighbors.add(new Node(curr.x - 1, curr.y - 1, curr.distance + 1));
-    	}
-    	// diagonally down and left
-    	if (isValidNode(b, matrix, curr, curr.x + 1, curr.y - 1, piece, neighbors)) {
-    		neighbors.add(new Node(curr.x + 1, curr.y - 1, curr.distance + 1));
-    	}
-    	// diagonally up and right
-    	if (isValidNode(b, matrix, curr, curr.x - 1, curr.y + 1, piece, neighbors)) {
-    		neighbors.add(new Node(curr.x - 1, curr.y + 1, curr.distance + 1));
-    	}	
-    }
-    
-    
+
+	/**
+	 * Only gets omni neighbors
+	 * @param curr the current node
+	 * @param matrix a 2D array
+	 * @param neighbors list of node's neighbors
+	 * @param piece an EscapePiece
+	 */
+	public static void omniMovement(Board b, Node curr, char[][] matrix, List<Node> neighbors, EscapePiece piece) {
+		// up (on matrix)
+		if (isValidNode(b, matrix, curr, curr.x - 1, curr.y, piece, neighbors)) {
+			neighbors.add(new Node(curr.x - 1, curr.y, curr.distance + 1));
+		}
+		// down
+		if (isValidNode(b, matrix, curr, curr.x + 1, curr.y, piece, neighbors)) {
+			neighbors.add(new Node(curr.x + 1, curr.y, curr.distance + 1));
+		}
+		// left
+		if (isValidNode(b, matrix, curr, curr.x, curr.y - 1, piece, neighbors)) {
+			neighbors.add(new Node(curr.x, curr.y - 1, curr.distance + 1));
+		}
+		// right
+		if (isValidNode(b, matrix, curr, curr.x, curr.y + 1, piece, neighbors)) {
+			neighbors.add(new Node(curr.x, curr.y + 1, curr.distance + 1));
+		}
+		// diagonally down and right
+		if (isValidNode(b, matrix, curr, curr.x + 1, curr.y + 1, piece, neighbors)) {
+			neighbors.add(new Node(curr.x + 1, curr.y + 1, curr.distance + 1));
+		}
+		// diagonally up and left
+		if (isValidNode(b, matrix, curr, curr.x - 1, curr.y - 1, piece, neighbors)) {
+			neighbors.add(new Node(curr.x - 1, curr.y - 1, curr.distance + 1));
+		}
+		// diagonally down and left
+		if (isValidNode(b, matrix, curr, curr.x + 1, curr.y - 1, piece, neighbors)) {
+			neighbors.add(new Node(curr.x + 1, curr.y - 1, curr.distance + 1));
+		}
+		// diagonally up and right
+		if (isValidNode(b, matrix, curr, curr.x - 1, curr.y + 1, piece, neighbors)) {
+			neighbors.add(new Node(curr.x - 1, curr.y + 1, curr.distance + 1));
+		}	
+	}
+
+
 }

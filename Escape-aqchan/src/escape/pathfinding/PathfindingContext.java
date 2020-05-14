@@ -23,7 +23,7 @@ import escape.piece.EscapePiece;
 public class PathfindingContext
 {
 	private PathfindingStrategy strategy;
-	
+
 	public void setPathfindingStrategy(PathfindingStrategy strategy) {
 		this.strategy = strategy;
 	}

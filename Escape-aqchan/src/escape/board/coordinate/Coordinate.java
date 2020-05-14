@@ -28,8 +28,8 @@ package escape.board.coordinate;
 public interface Coordinate
 {
 	/**
-     * @param c the other coordinate
-     * @return the distance from this coordinate to the other coordinate
-     */
-    int distanceTo(Coordinate c);
+	 * @param c the other coordinate
+	 * @return the distance from this coordinate to the other coordinate
+	 */
+	int distanceTo(Coordinate c);
 }

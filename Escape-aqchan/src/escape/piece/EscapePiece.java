@@ -22,32 +22,63 @@ import escape.util.PieceTypeInitializer.PieceAttribute;
  */
 public class EscapePiece
 {
-    private final Player player;
-    private final PieceName name;
-    private final MovementPatternID movementPatternID;
-    private final PieceAttribute[] attributes;
-    
-    /**
-     * Constructor that takes the player and piece name.
-     * @param player
-     * @param name
-     */
-    public EscapePiece(Player player, PieceName name, MovementPatternID movementPatternID, PieceAttribute[] attributes) 
-    {
+	private final Player player;
+	private final PieceName name;
+	private final MovementPatternID movementPatternID;
+	private final PieceAttribute[] attributes;
+	private int value;
+
+	/**
+	 * Constructor that takes the player name, piece name, movementPatternID, and attributes.
+	 * @param player
+	 * @param name
+	 */
+	public EscapePiece(Player player, PieceName name, MovementPatternID movementPatternID, PieceAttribute[] attributes) 
+	{
 		this.player = player;
-    	this.name = name;
-    	this.movementPatternID = movementPatternID;
-    	this.attributes = attributes;
-    }
-    
-    /**
+		this.name = name;
+		this.movementPatternID = movementPatternID;
+		this.attributes = attributes;
+		this.value = setInitialValue();
+	}
+
+	/**
+	 * Constructor that takes the player and piece name.
+	 * @param player
+	 * @param name
+	 */
+	public EscapePiece(Player player, PieceName name) 
+	{
+		this.player = player;
+		this.name = name;
+		this.movementPatternID = null;
+		this.attributes = null;
+		this.value = setInitialValue();;
+	}
+	
+	/**
+	 * Static factory method. This creates and returns the specified
+	 * Escape piece for the current game version.
+	 * 
+	 * DO NOT CHANGE THE SIGNATURE.
+	 * @param player the player the piece belongs to
+	 * @param name the piece name
+	 * @return the piece
+	 */
+	public static EscapePiece makePiece(Player player, PieceName name)
+	{
+		return new EscapePiece(player, name);
+	}
+
+	
+	/**
 	 * @return the name
 	 */
 	public PieceName getName()
 	{
 		return name;
 	}
-	
+
 	/**
 	 * @return the player
 	 */
@@ -55,7 +86,7 @@ public class EscapePiece
 	{
 		return player;
 	}
-	
+
 	/**
 	 * @return the movement pattern
 	 */
@@ -63,7 +94,7 @@ public class EscapePiece
 	{
 		return movementPatternID;
 	}
-	
+
 	/**
 	 * @return the attributes
 	 */
@@ -72,4 +103,36 @@ public class EscapePiece
 		return attributes;
 	}
 
+	/**
+	 * @return the value of the piece
+	 */
+	public int getValue()
+	{
+		return value;
+	}
+	
+	/**
+	 * Checks if a piece has the value attribute
+	 * If the piece does, set the value. Otherwise, the value is 1
+	 * @return
+	 */
+	public int setInitialValue()
+	{
+		int v = 1;
+		for (PieceAttribute a : attributes) {
+			if (a.getId() == PieceAttributeID.VALUE) {
+				v = a.getIntValue();
+			}
+		}
+		return v;
+	}
+	
+	
+	/**
+	 * @return sets the value of the piece
+	 */
+	public void setValue(int value)
+	{
+		this.value = value;
+	}
 }

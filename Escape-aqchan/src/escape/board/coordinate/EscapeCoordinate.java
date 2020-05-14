@@ -20,12 +20,6 @@ public abstract class EscapeCoordinate implements Coordinate
 {
 
 	/**
-	 * Escape Coordinate
-	 */
-	public EscapeCoordinate() {}
-	
-	
-	/**
 	 * @return the x
 	 */
 	public abstract int getX();
